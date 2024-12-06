@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nathan Tiggemann</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <header>
@@ -21,14 +22,72 @@
         <p>
             <h3>Plotting tropical curves</h3>
             You can find a python script for plotting tropical curves defined by a tropical polynomial <a href="plot_tropical_curves.py">here</a>. 
-            The script also plots the dual subdivision.<br>
-            It uses the python packages numpy, matplotlib and tkinter (and math and re).<br>
-            How to use this scipt: First install python and all the required packages listed above. Running this script will then open a window 
-            with several options. The input of the polynomial has to be of the following form: (cf singular). Hitting the plot button will generate 
-            two figures, one of the curve, one of its figures and, print all the things you specified in the settings.           
-            <br>For more details on how to make this script work, how it works and why I wrote it, see below. TODO: Ref zu den heads
-            <h3>Plotting tropical varieties in three dimensions</h3>
-            You can find a python script for plotting tropical hypersurfaces in R^3 <a href="plot_tropical_varieties_3dim.py"> here</a>.
+            The script also plots the dual subdivision and can plot the tikz code for the figures.<br>
+            It uses the packages numpy, matplotlib and tkinter (and math and re).<br>
+            Short notes on how to use this script: 
+            <ul>
+                <li>Install python and all the required packages listed above. math, re and probably tkinter should be pre-installed in python.</li>
+                <li>Running this script will open a window with several options that should be self explaining.</li>
+                <li>Input of the polynomial: For a term "\( a\odot x^iy^j\oplus b\odot x^ky^l\)" the input has to be "axiyj+bxkyl". So for example the minimal input for 
+                    "\(0\oplus 2\odot x^{1}y^{1}\oplus 0\odot x^{2}\oplus (-0.1)\odot x^{2}y^{1}\)" is "x2+2xy-0.1x2y+0".</li>
+                <li>Hitting the plot button will generate two figures, one of the curve, one of its dual subdivision and print all the things you specified in the options.</li>
+            </ul>
+            For more details on how to make this script work, what the options do, which inputs are allowed and how to configure default values, see here TODO.<br>           
+            For more details on how the algorithm works and why I wrote it, see here. TODO: Ref zu den heads
+            
+            <h3>Plotting tropical hypersurfaces in three dimensions</h3>
+            You can find a python script for plotting tropical hypersurfaces in \(\mathbb{R}^3\) <a href="plot_tropical_varieties_3dim.py"> here</a>. An even easier to use program written 
+            by Lars Allermann can be found <a href="https://www.math.uni-tuebingen.de/de/forschung/algebra/personen/prof-dr-thomas-markwig/software-fuer-tropische-geometrie"> here</a>.<br>
+            My script TODO(no min support, dual,)
+            <h3>Disclaimer</h3>
+            Use all the scripts on this website at your own risk. I am confident that they work very well for reasonable input but I do not guarantee that all outputs are correct.
+            If you find any bugs, please <a href="https://www.mathematik.tu-darmstadt.de/fb/personal/details/nathan_tiggemann.de.jsp">contact</a> me.
+            I only learned python to write these scripts, so don't be surprised if my codes might not be the most elegant or efficient ones ever written. 
+        </p>
+    </section>
+    <section>
+        <p>
+            Das zu eigenen Seiten machen?
+            <h3>On plotting tropical curves</h3>
+                <h4>How to install necessary stuff</h4>
+                I use Windows, so here is how it worked for me: Download python from <a href="https://www.python.org/downloads/">the official website</a>. Install it - and make sure that you 
+                pick the "Add Python to PATH" during the installation. <br>
+                Download pip with the command "curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py" in the command prompt (You find that by pressing the Windows key and then typing cmd. The "" are not part of the command). 
+                Install pip with the command "python get-pip.py". Use the commands "pip install numpy", "pip install matplotlib" to install the two packages. "math", "re" and "tkinter" are pre-installed.<br>
+                If you use Linux or macOS: Ask chatGPT how to install everything. You might need to install "tkinter" explicitely, too.
+                <h4>The options</h4>
+                <ul>
+                    <li>If you tick "use max-convention", the polynomial will be interpreted as a tropical polynomial 
+                        where "+" means max. Else "+" will mean min.</li>
+                </ul>
+                <h4>Input</h4>
+                Some remarks about the input
+                <ul>
+                    <li>In the input for the polynomial, blanks, "^", paranthesis "(" and ")" will be ignored and "+-" will be handled like a "-". For a monomial with no coefficient,
+                        the coefficient is assumed to be 0.</li>
+                    <li>Coefficients of the polynomial and the values for the x- and y-range should not be close to -9999999999999999. They also should differ by more than 0.00000000000001. This is because -9999999999999999 is this 
+                        program's negative infinity and two numbers are considered equal if they differ by less than 0.00000000000001.</li>
+                    <li>The allowed colors are all colors allowed in matplotlib. However, the same color gets used for the tikz-code, so if you use 
+                        this option, make sure that its also a tikz-color. Colors that work for both are for example: blue, black, red, green, cyan, magenta, yellow, orange, purple, pink, brown, gray, lime, olive, violet and teal
+                    </li>
+                </ul>
+                <h4>Change default values</h4>
+                If you open the file in your favourite editor, you will immediately see a comment that reads "#Default values". Change the variables
+                underneath to the values to the default values you want.
+                <h4>The algorithm used</h4>
+                The idea is the following:
+                <ul>
+                    <li>Go through all triples of monomials and solve for the point where they are equal and maximal. Store the point and which monomials were maximal.</li>
+                    <li>For the edges of the plotting range, do the same for pairs of monomials</li>
+                    <li>Go through all pairs of saved points and check whether the middle point is part of the curve. If it is, and the max is attained by the right monomials, connect the two points and remember the exponents for the dual</li>
+                </ul>
+                <h4>Why I wrote this script</h4>
+                There are already existing programs to plot tropical curves. And they are probably faster, more elegant and use only algebraic methods. 
+                My motivations for writing this script were mostly the following two: Writing it was fun and it is easy to use. This is also why I tried to keep all explanations very low level.
+            <h3>On plotting tropcial hypersurfaces in three dimensions</h3>
+            <h3>On this website</h3>
+                <h4>Website hosting</h4>
+                <h4>Writing the html code</h4>
         </p>
     </section>
     <footer>
