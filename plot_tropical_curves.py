@@ -7,10 +7,10 @@
 # Don't change anything
 import numpy as np
 import matplotlib.pyplot as plt
-import math # pre-installed
+import math
 from matplotlib.ticker import MaxNLocator
-import tkinter as tk # often pre-installed
-import re # pre-installed
+import tkinter as tk
+import re
 
 # Default values:
 default_polynomial = "-2x2-2y2-2+x+y+xy"
@@ -249,7 +249,7 @@ def parse_polynomial_trop(poly_str,use_min):
 # Function to plot the zero set
 def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
                         show_weights,weight_text_size,weight_color,
-                        color_curve,color_DS,color_NP,make_grid,write_polynomial,axes_xy,
+                        color_curve,color_DS,color_NP,make_grid,
                         print_vertices,print_tikz_code_curve,print_tikz_code_dual,tikz_color_curve,tikz_color_DS,tikz_color_NP,eps):
     try:
         A, max_exponent = parse_polynomial_trop(poly_str,use_min)
@@ -515,19 +515,15 @@ def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
         plt.gca().set_aspect(ratio, adjustable='box')
         #plt.gcf().set_size_inches(9, 9)  # Windowsize of the plots
 
-        # Write the polynomial?
-        if write_polynomial:
-            if use_min:
-                A = change_signs_of_polynomial(A,non_infty_entries,max_exponent)
-            plt.title("$F = $" + f"{write_the_polynomial(A,non_infty_entries,max_exponent,eps,True)}")
+        # Write the polynomial as title of the plot
+        if use_min:
+            A = change_signs_of_polynomial(A,non_infty_entries,max_exponent)
+        plt.title(f"{write_the_polynomial(A,non_infty_entries,max_exponent,eps,True)}")
 
         # What are the axes called?
-        if axes_xy:
-            plt.xlabel('$x$')
-            plt.ylabel('$y$')
-        else:
-            plt.xlabel(r'$x_1$')
-            plt.ylabel(r'$x_2$')
+
+        plt.xlabel(r'$x$')
+        plt.ylabel(r'$y$')
 
         plt.grid(make_grid) # Makes a grid. Or doesn't. You decide(d)!
 
@@ -616,9 +612,6 @@ def main():
         # Get print_vertices
         print_vertices = print_vertices_var.get()
 
-        write_polynomial = True # This stays true, as it is probably good for checking the input
-        axes_xy = True # If one would want to set this to true, one would have to change the write_the_polnomial function
-
         # Get print_tikz_code_curve
         print_tikz_code_curve = print_tikz_code_curve_var.get()
         # Get print_tikz_code_dual
@@ -628,7 +621,7 @@ def main():
 
         plot_trop_polynomial(poly_str,a,b,c,d,use_min,
                                 show_weights,weight_text_size,weight_color,
-                                color_curve,color_DS,color_NP,make_grid,write_polynomial,axes_xy,
+                                color_curve,color_DS,color_NP,make_grid,
                                 print_vertices,
                                 print_tikz_code_curve,print_tikz_code_dual,tikz_color_curve,tikz_color_DS,tikz_color_NP,
                                 eps)
@@ -696,11 +689,11 @@ def main():
                 "_______________"
             ),
             font=("Arial", 12),
-            justify="center",  # Text zentrieren
-            wraplength=500     # Max. Breite für Zeilenumbruch (in Pixeln)
+            justify="center",  # Center text
+            wraplength=500     # Max width for new line (in pixels)
         )
 
-    instruction.pack(pady=10)  # Abstände zum Rand hinzufügen
+    instruction.pack(pady=10)  # Add distances to boundary
 
     # Input field for the color of the curve
     frame_color_curve = tk.Frame(window)
@@ -758,11 +751,11 @@ def main():
                 "_______________"
             ),
             font=("Arial", 12),
-            justify="center",  # Text zentrieren
-            wraplength=500     # Max. Breite für Zeilenumbruch (in Pixeln)
+            justify="center",
+            wraplength=500
         )
 
-    instruction.pack(pady=10)  # Abstände zum Rand hinzufügen
+    instruction.pack(pady=10)
 
     # Checkbox for show_weights
     frame_show_weights = tk.Frame(window)
@@ -800,11 +793,11 @@ def main():
                 "_______________"
             ),
             font=("Arial", 12),
-            justify="center",  # Text zentrieren
-            wraplength=500     # Max. Breite für Zeilenumbruch (in Pixeln)
+            justify="center",
+            wraplength=500
         )
 
-    instruction.pack(pady=10)  # Abstände zum Rand hinzufügen
+    instruction.pack(pady=10)
 
     # Checkbox for print_tikz_code_curve
     frame_print_tikz_code_curve = tk.Frame(window)

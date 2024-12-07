@@ -1,11 +1,8 @@
 ###############################
 # This script plots the tropical curve defined by a trivariate tropical polynomial
 # The tropical numbers are defined with max as addition
-# v1.1 - Ignore infty entries & got rid of a few functions
+# v1.1
 ###############################
-# TODO: Man kann alle list_exp Geschichten in inds und linToExp verstecken.
-# TODO: Minimalist support
-# TODO: Weights?
 
 ''' Preamble '''
 import numpy as np
