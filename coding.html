@@ -18,6 +18,11 @@
     </nav>
     <section>
         <h2>Coding</h2>
+        <ul>
+            <li>Plotting tropical curves</li>
+            <li>Plotting tropical hypersurfaces</li>
+            <li>Your own website</li>
+        </ul>
         <p>
             <h3>Plotting tropical curves</h3>
             You can find a python script for plotting tropical curves defined by a tropical polynomial <a href="plot_tropical_curves.py">here</a>. 
@@ -39,7 +44,7 @@
             by Lars Allermann can be found <a href="https://www.math.uni-tuebingen.de/de/forschung/algebra/personen/prof-dr-thomas-markwig/software-fuer-tropische-geometrie"> here</a>.<br>
             My script however, does plot the edges of the dual subdivision, too. TODO(no min support)
             <h3>Disclaimer</h3>
-            Use all the scripts on this website at your own risk. I am confident that they work very well for reasonable input but I do not guarantee that all outputs are correct.
+            Use all the scripts on this website at your own risk. I am confident that they work very well for reasonable input, however, I do not guarantee that all outputs are correct.
             If you find any bugs, please <a href="https://www.mathematik.tu-darmstadt.de/fb/personal/details/nathan_tiggemann.de.jsp">contact</a> me.
             I only learned python to write these scripts, so don't be surprised if my codes might not be the most elegant or efficient ones ever written. 
         </p>
@@ -48,13 +53,14 @@
         <p>
             TODO: Das zu eigenen Seiten machen?
             <h3>On plotting tropical curves</h3>
-                <h4>How to install necessary stuff</h4>
-                I use Windows, so here is how it worked for me: Download python from <a href="https://www.python.org/downloads/">the official website</a>. Install it - and make sure that you 
+                <h4>How to install python and necessary packages</h4>
+                I use Windows, so here is how it worked for me: Download python from <a href="https://www.python.org/downloads/">the official website</a>. Install it - AND make sure that you 
                 pick the "Add Python to PATH" during the installation. <br>
                 Download pip with the command "curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py" in the command prompt (You find that by pressing the Windows key and then typing cmd. The "" are not part of the command). 
                 Install pip with the command "python get-pip.py". Use the commands "pip install numpy", "pip install matplotlib" to install the two packages. "math", "re" and "tkinter" are pre-installed.<br>
                 If you use Linux or macOS: Ask chatGPT how to install everything. You might need to install "tkinter" explicitely, too.
                 <h4>The options</h4>
+                TODO
                 <ul>
                     <li>If you tick "use max-convention", the polynomial will be interpreted as a tropical polynomial 
                         where "+" means max. Else "+" will mean min.</li>
@@ -73,7 +79,7 @@
                 <h4>Change default values</h4>
                 If you open the file in your favourite editor, you will immediately see a comment that reads "#Default values". Change the variables
                 underneath to the values to the default values you want.
-                <h4>The algorithm used</h4>
+                <h4>The algorithm</h4>
                 The idea is the following:
                 <ul>
                     <li>Go through all triples of monomials and solve for the point where they are equal and maximal. Store the point and which monomials were maximal.</li>
@@ -83,10 +89,28 @@
                 <h4>Why I wrote this script</h4>
                 There are already existing programs to plot tropical curves. And they are probably faster, more elegant and use only algebraic methods. 
                 My motivations for writing this script were mostly the following two: Writing it was fun and it is easy to use. This is also why I tried to keep all explanations very low level.
+        </p>
+        <p>    
             <h3>On plotting tropcial hypersurfaces in three dimensions</h3>
-            <h3>On this website</h3>
+                <h4>How to install python and necessary packages</h4>
+                I use Windows, so here is how it worked for me: Download python from <a href="https://www.python.org/downloads/">the official website</a>. 
+                Install it - and make sure that you pick the "Add Python to PATH" during the installation. <br>
+                Download pip with the command "curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py" in the command prompt (You find that by pressing the Windows key and then typing cmd. The "" are not part of the command). 
+                Install pip with the command "python get-pip.py". Use the commands "pip install numpy", "pip install matplotlib", "pip install scipy" to install the three packages. "math", "re" and "tkinter" are pre-installed.<br>
+                If you use Linux or macOS: Ask chatGPT how to install everything. You might need to install "tkinter" explicitely, too.
+                <h4>Input</h4>
+                <h4>The algorithm</h4>
+                <h4>Why I wrote this script</h4>
+                There are already existing programs to plot tropical curves. And they are probably faster, more elegant and use only algebraic methods. 
+                My motivations for writing this script were mostly the following two: Writing it was fun and it is easy to use (This is also why I tried to keep all explanations very low level.). 
+                At the time I didn't know the programm by Lars Allermann. Still, plotting the dual is an advantage my script has.
+        </p>
+        <p>
+            <h3>How to get a website like this</h3>
                 <h4>Website hosting</h4>
+                This website is hosted on GitHub. <a href="https://pages.github.com/">here</a> is a good reference on how to start your own website. Thanks to <a href="https://tbrazel.github.io/index.html">Thomas Brazelton</a> for this hint!
                 <h4>Writing the html code</h4>
+                Here is the obvious hint: Describe to chatGPT how you want your website to look and be structures and ask it to give you the html-code. This works incredibly well.
         </p>
     </section>
     <footer>

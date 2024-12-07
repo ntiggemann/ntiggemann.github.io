@@ -7,10 +7,8 @@
 ''' Preamble '''
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from scipy.spatial import ConvexHull
-from matplotlib.ticker import MaxNLocator
 
 infty = -9999999999999999 # Auxiliar-minus-infty - just some very negative number
 
