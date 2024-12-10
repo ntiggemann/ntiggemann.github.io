@@ -23,58 +23,27 @@ d = 10
 # A[i,j,k] is the coefficient that belongs to x^iy^jz^k
 A = infty * np.ones((d+1,d+1,d+1))# Initialising A - this sould not be deleted
 
-try:    
-    A[0,0,0] = -2
-    A[0,1,0] = 0
-    A[1,0,0] = 0
-    A[2,0,0] = -1
-    A[0,2,0] = -1
-    A[1,1,0] = 1
-    A[2,1,0] = -1
-    A[1,2,0] = -1
-    A[3,0,0] = -4
-    A[0,3,0] = -4
-    A[0,0,1] = 0
-    
-    '''
-    A[0,0,0] = 1
-    A[0,0,1] = -1
-    A[0,0,2] = 0
-    A[0,0,3] = 0
-    '''
-    '''
-    A[0,0,0] = 0
-    A[1,0,0] = 0
-    '''
-    '''
-    A[2,0,0] = 0
-    A[0,2,0] = 0
-    A[0,0,2] = 0
-    A[0,0,0] = 0
-    A[1,0,0] = 0
-    '''
-    '''
-    A[0,0,0] = 0
-    A[1,0,0] = 0
-    A[0,1,0] = 0
-    A[0,0,1] = 0
-    '''
-    '''
-    A[0,0,0] = 0
-    A[1,0,1] = 0
-    A[1,1,0] = 0
-    A[2,1,1] = 0 # I = K = 0; J = [1,1,0], L = [1,0,1]
-    '''
-except:
-    raise ValueError("Your highest occuring degree of a variable, d, is too small. (Or you have a syntax error)")
+
+A[0,0,0] = -2
+A[0,1,0] = 0
+A[1,0,0] = 0
+A[2,0,0] = -1
+A[0,2,0] = -1
+A[1,1,0] = 1
+A[2,1,0] = -1
+A[1,2,0] = -1
+A[3,0,0] = -4
+A[0,3,0] = -4
+A[0,0,1] = 0
+
 
 ''' Plotting range '''
 # As long as you don't do stuff near infty you should be fine
 
-a_x = -6  # Boundary x-axis left
-b_x = 6   # Boundary x-axis right
-a_y = -6  # Boundary y-axis left
-b_y = 6   # Boundary y-axis right
+a_x = -6  # Boundary x-axis lower
+b_x = 6   # Boundary x-axis upper
+a_y = -6  # Boundary y-axis lower
+b_y = 6   # Boundary y-axis upper
 a_z = -6
 b_z = 6
 

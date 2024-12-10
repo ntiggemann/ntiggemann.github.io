@@ -21,17 +21,17 @@
         <ul>
             <li>Plotting tropical curves</li>
             <li>Plotting tropical hypersurfaces</li>
-            <li>Your own website</li>
+            <li>Get your own website</li>
         </ul>
         <p>
             <h3>Plotting tropical curves</h3>
             You can find a python script for plotting tropical curves defined by a tropical polynomial <a href="plot_tropical_curves.py">here</a>. 
-            The script also plots the dual subdivision and can plot the tikz code for the figures.<br>
+            The script also plots the dual subdivision and can plot the tikz-code for the figures.<br>
             It uses the packages numpy, matplotlib and tkinter (and math and re).<br>
             Short notes on how to use this script: 
             <ul>
                 <li>Install python and all the required packages listed above. math, re and probably tkinter should be pre-installed in python.</li>
-                <li>Running this script will open a window with several options that should be self explaining.</li>
+                <li>Running this script (e.g. with the command "python [path to the file]\plot_tropical_curves.py" in the command prompt) will open a window where you can input a polynomial and change several options.</li>
                 <li>Input of the polynomial: For a term "\( a\odot x^iy^j\oplus b\odot x^ky^l\)" the input has to be "axiyj+bxkyl". So for example the minimal input for 
                     "\(0\oplus 2\odot x^{1}y^{1}\oplus 0\odot x^{2}\oplus (-0.1)\odot x^{2}y^{1}\)" is "x2+2xy-0.1x2y+0".</li>
                 <li>Hitting the plot button will generate two figures, one of the curve, one of its dual subdivision and print all the things you specified in the options.</li>
@@ -42,7 +42,10 @@
             <h3>Plotting tropical hypersurfaces in three dimensions</h3>
             You can find a python script for plotting tropical hypersurfaces in \(\mathbb{R}^3\) <a href="plot_tropical_varieties_3dim.py"> here</a>. An even easier to use program written 
             by Lars Allermann can be found <a href="https://www.math.uni-tuebingen.de/de/forschung/algebra/personen/prof-dr-thomas-markwig/software-fuer-tropische-geometrie"> here</a>.<br>
-            My script however, does plot the edges of the dual subdivision, too. TODO(no min support)
+            My script however, does plot the edges of the dual subdivision, too. There is no support for min-convention yet and you have to do the input directly in the file. Running it will immediately show you the plots. 
+            This script uses the packages numpy, matplotlib and scipy. TODO: Was ist mpl_toolkits? Taucht bei pip list nicht auf.
+            <br>
+            For more details on how to make this script work and how the input works, see here TODO.
             <h3>Disclaimer</h3>
             Use all the scripts on this website at your own risk. I am confident that they work very well for reasonable input, however, I do not guarantee that all outputs are correct.
             If you find any bugs, please <a href="https://www.mathematik.tu-darmstadt.de/fb/personal/details/nathan_tiggemann.de.jsp">contact</a> me.
@@ -51,7 +54,6 @@
     </section>
     <section>
         <p>
-            TODO: Das zu eigenen Seiten machen?
             <h3>On plotting tropical curves</h3>
                 <h4>How to install python and necessary packages</h4>
                 I use Windows, so here is how it worked for me: Download python from <a href="https://www.python.org/downloads/">the official website</a>. Install it - AND make sure that you 
@@ -60,10 +62,16 @@
                 Install pip with the command "python get-pip.py". Use the commands "pip install numpy", "pip install matplotlib" to install the two packages. "math", "re" and "tkinter" are pre-installed.<br>
                 If you use Linux or macOS: Ask chatGPT how to install everything. You might need to install "tkinter" explicitely, too.
                 <h4>The options</h4>
-                TODO
                 <ul>
                     <li>If you tick "use max-convention", the polynomial will be interpreted as a tropical polynomial 
                         where "+" means max. Else "+" will mean min.</li>
+                    <li>x-range and y-range define the plotting range</li>
+                    <li>Color of curve/dual subdivision/Newton polygon: Changes the color of the curve/dual subdivision/Newton polygon, also in the tikz-code</li>
+                    <li>If you tick "Draw a grid", the plot will show a grid. This does not affect the tikz-code</li>
+                    <li>If you tick "Print ends of edges", the coordinates of the vertices of the curve and of its intersection points with the boundary of the plotting range will get printed.</li>
+                    <li>If you tick "Show weights of edges", the weights bigger than 1 will occur both in the plot and in the tikz-code</li>
+                    <li>The options "Size of weights" and "Color of weights" change size and color of the weights both in the plot and in the tikz-code </li>
+                    <li>The last two options decide whether the tikz-code for the curve, resp. its dual, will get printed. If you print the code for the curve, you will also get the LaTeX-code of the tropical polynomial.</li>
                 </ul>
                 <h4>Input</h4>
                 Some remarks about the input
@@ -99,18 +107,31 @@
                 Install pip with the command "python get-pip.py". Use the commands "pip install numpy", "pip install matplotlib", "pip install scipy" to install the three packages. "math", "re" and "tkinter" are pre-installed.<br>
                 If you use Linux or macOS: Ask chatGPT how to install everything. You might need to install "tkinter" explicitely, too.
                 <h4>Input</h4>
+                For this script you have to manually adjust the input in the code. If you open the file, after line 15 (''' INPUT ''') there are more explanations on how to do this.
                 <h4>The algorithm</h4>
+                The idea, similarly to the two dimensional case, is:
+                <ul>
+                    <li>Solve for the points where four monomials are equal and maximal, remember the monomials too.</li>
+                    <li>Solve for the points on the boundary of the plot where three monomials are equal and maximal, remember the monomials too.</li>
+                    <li>Check which of these points to connect. </li>
+                    <li>Solve for the points on the edges of the plotting range where two monomials are equal and maximal, remember the monomials.</li>
+                    <li>Go through all possible pairs of monomials and check which of the computed points contain them in their maximal monomials.</li>
+                    <li>Plot the polygons defined by these points, compute the edges of the dual from the exponents of the monomials.</li>
+                </ul>
+                Obviously, there are quite a few details I skipped here.
                 <h4>Why I wrote this script</h4>
-                There are already existing programs to plot tropical curves. And they are probably faster, more elegant and use only algebraic methods. 
+                There are already existing programs to plot tropical hypersurfaces. And they are probably faster, more elegant and use only algebraic methods. 
                 My motivations for writing this script were mostly the following two: Writing it was fun and it is easy to use (This is also why I tried to keep all explanations very low level.). 
                 At the time I didn't know the programm by Lars Allermann. Still, plotting the dual is an advantage my script has.
         </p>
+        </section>
+        <section>
         <p>
             <h3>How to get a website like this</h3>
                 <h4>Website hosting</h4>
                 This website is hosted on GitHub. <a href="https://pages.github.com/">here</a> is a good reference on how to start your own website. Thanks to <a href="https://tbrazel.github.io/index.html">Thomas Brazelton</a> for this hint!
                 <h4>Writing the html code</h4>
-                Here is the obvious hint: Describe to chatGPT how you want your website to look and be structures and ask it to give you the html-code. This works incredibly well.
+                Here is the obvious hint: Describe to chatGPT how you want your website to look and the structure to be and ask it to give you the html-code. This works incredibly well.
         </p>
     </section>
     <footer>
