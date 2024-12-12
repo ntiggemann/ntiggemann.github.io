@@ -27,13 +27,13 @@
         </ul>
         <p>
             <h3 id="Plotting tropical curves">Plotting tropical curves</h3>
-            You can find a Python script for plotting tropical curves defined by a tropical polynomial <a href="plot_tropical_curves.py">here</a>. 
+            You can find a Python script for plotting tropical curves defined by a tropical polynomial <a href="plot_tropical_curves.py">here</a>. The same script, but as a .exe file can be found <a href="plot_tropical_curves.exe">here</a>.
             The script also plots the dual subdivision and can plot the tikz code for the figures.<br>
             It uses the packages numpy, matplotlib and tkinter (and math and re).<br>
-            Short notes on how to use this script: 
+            If you are on Windows, you can just download the exe-version and are ready to go.
+            Short notes on how to use the program:
             <ul>
-                <li>Install Python and all the required packages listed above. math, re and probably tkinter should be pre-installed in Python.</li>
-                <li>Running this script (e.g. with the command "python [path to the file]\plot_tropical_curves.py" in the command prompt) will open a window where you can input a polynomial and change several options.</li>
+                <li>Starting the program will open a window where you can input a polynomial and change several options and an empty second window where the optional printed output will appear.</li>
                 <li>Input of the polynomial: For a term "\( a\odot x^iy^j\oplus b\odot x^ky^l\)" the input has to be "axiyj+bxkyl". So for example the minimal input for 
                     "\(0\oplus 2\odot x^{1}y^{1}\oplus 0\odot x^{2}\oplus (-0.1)\odot x^{2}y^{1}\)" is "x2+2xy-0.1x2y+0".</li>
                 <li>Hitting the plot button will generate two figures, one of the curve, one of its dual subdivision and print all the things you specified in the options.</li>
@@ -77,8 +77,8 @@
                 <h4>Input</h4>
                 Some remarks about the input
                 <ul>
-                    <li>In the input for the polynomial, blanks, "^", parenthesis "(" and ")" will be ignored and "+-" will be handled like a "-". For a monomial with no coefficient,
-                        the coefficient is assumed to be 0.</li>
+                    <li>In the input for the polynomial, blanks, "^", "*", parenthesis "(" and ")" will be ignored and "+-" will be handled like a "-". "+" and "-" always seperate monomials. For a monomial with no coefficient,
+                        the coefficient is assumed to be 0. "3x2y" and "3yx2" are interpreted as the same term. Coefficients of monomials will be added if possible, i.e. "3xy + 4yx" gets simplified to "4xy" if max-convention is active, else to "3xy".</li>
                     <li>Coefficients of the polynomial and the values for the x- and y-range should not be close to -9999999999999999. They also should differ by more than 0.00000000000001. This is because -9999999999999999 is this 
                         program's negative infinity and two numbers are considered equal if they differ by less than 0.00000000000001.</li>
                     <li>The allowed colors are all colors allowed in matplotlib. However, the same color gets used for the tikz code, so if you use 
