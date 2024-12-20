@@ -29,7 +29,7 @@
             <h3 id="Plotting tropical curves">Plotting tropical curves</h3>
             You can find a Python script for plotting tropical curves defined by a tropical polynomial <a href="plot_tropical_curves.py">here</a>. The same script, but as a .exe file can be found <a href="plot_tropical_curves.exe">here</a>.
             The script also plots the dual subdivision and can plot the tikz code for the figures.<br>
-            It uses the packages numpy, matplotlib and tkinter (and math and re).<br>
+            It uses the packages numpy, matplotlib and tkinter.<br>
             If you are on Windows, you can just download the exe-version and are ready to go.
             Short notes on how to use the program:
             <ul>
@@ -79,8 +79,7 @@
                 <ul>
                     <li>In the input for the polynomial, blanks, "^", "*", parenthesis "(" and ")" will be ignored and "+-" will be handled like a "-". "+" and "-" always seperate monomials. For a monomial with no coefficient,
                         the coefficient is assumed to be 0. "3x2y" and "3yx2" are interpreted as the same term. Coefficients of monomials will be added if possible, i.e. "3xy + 4yx" gets simplified to "4xy" if max-convention is active, else to "3xy".</li>
-                    <li>Coefficients of the polynomial and the values for the x- and y-range should not be close to -9999999999999999. They also should differ by more than 0.00000000000001. This is because -9999999999999999 is this 
-                        program's negative infinity and two numbers are considered equal if they differ by less than 0.00000000000001.</li>
+                    <li>Coefficients of the polynomial and the values for the x- and y-range should differ by more than 0.00000000000001. This is because two numbers are considered equal if they differ by less than 0.00000000000001.</li>
                     <li>The allowed colors are all colors allowed in matplotlib. However, the same color gets used for the tikz code, so if you use 
                         this option, make sure that it is also a tikz-color. Colors that work for both are for example: blue, black, red, green, cyan, magenta, yellow, orange, purple, pink, brown, gray, lime, olive, violet and teal
                     </li>

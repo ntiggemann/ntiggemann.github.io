@@ -1,16 +1,18 @@
 ###############################
 # This script plots the tropical curve defined by a bivariate tropical polynomial
 # and its dual subdivision
-# v2.0
+# v2.1
 ###############################
+
 ''' Preamble '''
 # Don't change anything
 import numpy as np
 import matplotlib.pyplot as plt
-import math
+import math # pre-installed
 from matplotlib.ticker import MaxNLocator
-import tkinter as tk
-import re
+import tkinter as tk # often pre-installed
+import re # pre-installed
+import itertools
 
 # Default values:
 default_polynomial = "-2x2-2y2-2+x+y+xy"
@@ -39,40 +41,25 @@ default_print_tikz_DS = False
 
 eps = 0.00000000000001  # Epsilon - this number defines under which distance two floats are interpreted as the same number
 
-# Auxiliar-minus-infty - just some very negative number
-infty = -9999999999999999 #DO NOT CHANGE, even if you want to use the min convention!
-
 ''' Functions '''
-def get_exponent(index,degree):
-    '''
-    Calculate the exponent of the monomial corresponding to the given index in a coefficient matrix.
 
-    Args:
-        index (int): The linear index in the coefficient matrix.
-        degree (int): The maximum degree (number of rows/columns - 1) in the matrix.
-
-    Returns:
-        tuple: The row (x exponent) and column (y exponent) corresponding to the monomial.
+def evaluate_trop_monomials(x,y,A):
     '''
-    return index // (degree+1),(index % (degree+1))
-
-def evaluate_trop_monomials(x,y,A,non_infty_entries,max_exponent):
-    '''
-    Given a point (x,y) and a tropical polynomial with coefficient matrix A and not-infty entries non_infty_entries, returns the values of the tropical 
+    Given a point (x,y) and a tropical polynomial with coefficient dictionary A, returns the values of the tropical 
     monomials.
     Args:
         x (int or float): x-coordinate
         y (int or float): y-coordinate
-        A (2-dim Array of int or float): The coefficient matrix of a tropical polynomial
-        non_infty_entries (list of int): List of the non-infty entries of A
+        A (dictionars): The coefficients of a tropical polynomial with key the exponents
     Returns:
         array of floats: The values in the max of the tropical polynomial
     '''
-    values = np.zeros(len(non_infty_entries))
+    values = np.zeros(len(A))
+    count = 0
 
-    for idx, linear_index in enumerate(non_infty_entries):
-        i1, j1 = get_exponent(linear_index,max_exponent)
-        values[idx] = (i1)*x + (j1)*y + A[i1,j1]
+    for (i1,j1), coeff in A.items():
+        values[count] = (i1)*x + (j1)*y + coeff
+        count = count + 1
     return values
 
 def get_values_indices(a,b,value,eps):
@@ -99,62 +86,65 @@ def get_values_indices(a,b,value,eps):
 
     return a_value_indices, b_value_indices
             
-def write_the_polynomial(A,non_infty_entries,max_exponent,eps,is_title):
+def write_the_polynomial(A,eps,is_title):
     '''
     Given the coefficients of a tropical polynomial, generates a string of LaTeX code for it
     Args:
-        A (2-dim array of int): Coefficients of a polynomial
-        non_infty_entries (list of int): list of relevant entries in the polynomial
+        A (dictionary): Coefficients of a polynomial with key the exponents
+        eps (float): Difference before two numbers are considered equal
+        is_title (boolean): Decides if there will be breaks in the string 
     Returns
         string: LaTeX code that writes the polynomial
     '''
-    i, j = get_exponent(non_infty_entries[0],max_exponent)
 
     if not is_title:
-        if (abs(A[i,j]-round(A[i,j],0)) < eps):
-            coeff = f"{int(round(A[i,j],0))}"
-        else:
-            coeff = f"{A[i,j]}"
-        latex_polynomial = f"{coeff}\\odot x^{ {i} }y^{ {j} }" #f"{coeff}\\odot x^{{({i},{j})}}"
-        for k in range(1,len(non_infty_entries)):
-            i,j = get_exponent(non_infty_entries[k],max_exponent)
-            if (abs(A[i,j]-round(A[i,j],0)) < eps):
-                coeff = f"{int(round(A[i,j],0))}"
+        first_monom = True
+        for (i1,j1), coeff in A.items():
+            if first_monom:
+                first_monom = False
+                if (abs(coeff-round(coeff,0)) < eps):
+                    str_coeff = f"{int(round(coeff,0))}"
+                else:
+                    str_coeff = f"{coeff}"
+                latex_polynomial = f"{str_coeff}\\odot x^{ {i1} }y^{ {j1} }" #f"{coeff}\\odot x^{{({i},{j})}}"
             else:
-                coeff = f"{A[i,j]}"
-            latex_polynomial = latex_polynomial + f"\\oplus {coeff}\\odot x^{ {i} }y^{ {j} }"
+                if (abs(coeff-round(coeff,0)) < eps):
+                    str_coeff = f"{int(round(coeff,0))}"
+                else:
+                    str_coeff = f"{coeff}"
+                latex_polynomial = latex_polynomial + f"\\oplus {str_coeff}\\odot x^{ {i1} }y^{ {j1} }"    
+    
     else:
         monom_count = 0
-        if (abs(A[i,j]-round(A[i,j],0)) < eps):
-            coeff = f"{int(round(A[i,j],0))}"
-        else:
-            coeff = f"{A[i,j]}"
-        latex_polynomial = f"${coeff}\\odot x^{ {i} }y^{ {j} }$" #f"{coeff}\\odot x^{{({i},{j})}}"
-
-        for k in range(1,len(non_infty_entries)):
-            i,j = get_exponent(non_infty_entries[k],max_exponent)
-            if (abs(A[i,j]-round(A[i,j],0)) < eps):
-                coeff = f"{int(round(A[i,j],0))}"
+        for (i1,j1), coeff in A.items():
+            if monom_count == 0:
+                if (abs(coeff-round(coeff,0)) < eps):
+                    str_coeff = f"{int(round(coeff,0))}"
+                else:
+                    str_coeff = f"{coeff}"
+                latex_polynomial = f"${str_coeff}\\odot x^{ {i1} }y^{ {j1} }$" #f"{coeff}\\odot x^{{({i},{j})}}"
+                monom_count = monom_count +1
             else:
-                coeff = f"{A[i,j]}"
-            if monom_count != 0 and monom_count % 5 == 0:
-                latex_polynomial = latex_polynomial + f"$\\oplus {coeff}\\odot x^{ {i} }y^{ {j} }$" + "\n"
-            else:
-                latex_polynomial = latex_polynomial + f"$\\oplus {coeff}\\odot x^{ {i} }y^{ {j} }$"
-            monom_count = monom_count + 1
+                if (abs(coeff-round(coeff,0)) < eps):
+                    str_coeff = f"{int(round(coeff,0))}"
+                else:
+                    str_coeff = f"{coeff}"
+                if monom_count != 0 and monom_count % 5 == 0:
+                    latex_polynomial = latex_polynomial + f"$\\oplus {str_coeff}\\odot x^{ {i1} }y^{ {j1} }$" + "\n"
+                else:
+                    latex_polynomial = latex_polynomial + f"$\\oplus {str_coeff}\\odot x^{ {i1} }y^{ {j1} }$"
+                monom_count = monom_count + 1
     return latex_polynomial
 
-def change_signs_of_polynomial(A,non_infty_entries,max_exponent):
+def change_signs_of_polynomial(A):
     '''
     Args:
-        Matrix A: The coefficient matrix
-        non_infty_entries (list of int): Some indices
+        A (dictionary): The coefficients
     Returns:
-        Matrix A with the signs of all entries indicated by non_infty_entries changed.
+        Dictionary A with the signs of all entries indicated by non_infty_entries changed.
     '''
-    for k in non_infty_entries:
-        i,j = get_exponent(k,max_exponent)
-        A[i,j] = (-1)*A[i,j]
+    for exp, coef in A.items():
+        A[exp] = (-1)*coef
     return A
 
 def tupel_is_in_list(x,L,eps):
@@ -174,13 +164,13 @@ def tupel_is_in_list(x,L,eps):
 
 def parse_polynomial_trop(poly_str,use_min):
     """
-    Parses a polynomial string in two variables (x and y) and creates a 2D array of coefficients.
+    Parses a polynomial string in two variables (x and y) and creates a dictionary.
 
     Args:
         poly_str (str): The polynomial string, e.g., "3.2x2y + yx + 9".
 
     Returns:
-        np.array: A 2D array representing the coefficients of the polynomial.
+        dict: A dictionary representing the coefficients of the polynomial.
         int: The size of the array
     """
     # Remove spaces and handle '+' and '-' for separation
@@ -231,20 +221,10 @@ def parse_polynomial_trop(poly_str,use_min):
         else:
             coefficients[(x_exp, y_exp)] = coefficient
 
-    # Determine the size of the array
-    max_x = max((key[0] for key in coefficients), default=0)
-    max_y = max((key[1] for key in coefficients), default=0)
+    # Neues Dictionary mit sortierten Schlüsseln
+    sorted_coefficients = dict(sorted(coefficients.items(), key=lambda x: x[0], reverse=True))
 
-    max_exponent = max(max_x,max_y)
-
-    # Create a 2D array
-    result = infty * np.ones((max_exponent + 1, max_exponent + 1), dtype=float)
-
-    # Fill the array with coefficients
-    for (x_exp, y_exp), coeff in coefficients.items():
-        result[x_exp, y_exp] = coeff
-
-    return result, max_exponent
+    return sorted_coefficients
 
 # Function to plot the zero set
 def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
@@ -252,23 +232,16 @@ def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
                         color_curve,color_DS,color_NP,make_grid,
                         print_vertices,print_tikz_code_curve,print_tikz_code_dual,tikz_color_curve,tikz_color_DS,tikz_color_NP,eps):
     try:
-        A, max_exponent = parse_polynomial_trop(poly_str,use_min)
-
-        # Get the relevant entries of the matrix.
-        non_infty_entries = []
-        for k in range((max_exponent+1)**2):
-            i,j = get_exponent(k,max_exponent)
-            if not (A[i,j] == infty):
-                non_infty_entries.append(k)
+        A = parse_polynomial_trop(poly_str,use_min)
 
         # The number of monomials
-        number_of_monomials = len(non_infty_entries)
+        number_of_monomials = len(A)
 
         if (number_of_monomials < 2):
             raise ValueError("Please enter a polynomial with at least two different monomials.")
 
         if use_min:
-            A = change_signs_of_polynomial(A,non_infty_entries,max_exponent)
+            A = change_signs_of_polynomial(A)
 
             temp = a_x
             a_x = (-1) * b_x
@@ -287,33 +260,25 @@ def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
         is_triple = [] # List of length 3 arrays, the x-exponents of the maximal monomials
         js_triple = [] # List of length 3 arrays, the y-exponents of the maximal monomials
 
-        # Walk through matrix A, check all triples of monomials
+        # Walk through dictionary A, check all triples of monomials
+        for ((i1,j1),(i2,j2),(i3,j3)) in itertools.combinations(A,3):
+            ## Solve for points where a value is attained three times
 
-        for i in range(number_of_monomials-2):
-            for j in range(i+1,number_of_monomials-1):
-                for k in range(j+1,number_of_monomials):
-                    ## Solve for points where a value is attained three times
-                    # Recovers the exponents from the linear counting
-
-                    i1,j1 = get_exponent(non_infty_entries[i],max_exponent)
-                    i2,j2 = get_exponent(non_infty_entries[j],max_exponent)
-                    i3,j3 = get_exponent(non_infty_entries[k],max_exponent)
-
-                    # The coefficients of the system of linear equations we have to solve
-                    B = np.array([[i1-i2, j1-j2],[i1-i3, j1-j3]])
-                    b = np.array([A[i2,j2] - A[i1,j1],A[i3,j3] - A[i1,j1]])
-                    # Proceed only if  the syst of lin eq is uniquely solvable
-                    if (0 != np.linalg.det(B)):
-                        x = np.linalg.solve(B, b)
-                        # Check if it is actually a maximum
-                        if (abs(np.max(evaluate_trop_monomials(x[0],x[1],A,non_infty_entries,max_exponent)) - A[i1,j1] - i1*x[0] - j1*x[1]) < eps):
-                            x_vals_triple.append(x[0])
-                            y_vals_triple.append(x[1])
-                            is_triple.append(np.array([i1,i2,i3]))
-                            js_triple.append(np.array([j1,j2,j3]))
-                            if (x[0] <= a_x) or (x[0] >= b_x) or (x[1] <= a_y) or (x[1] >= b_y):
-                                # If a vertex of the curve is not in the plot, it will look weird, and you will probably be unhappy with the plot
-                                print(f"The point ({x[0]},{x[1]}) is not in your plotting range, which could be a problem...")
+            # The coefficients of the system of linear equations we have to solve
+            B = np.array([[i1-i2, j1-j2],[i1-i3, j1-j3]])
+            b = np.array([A[(i2,j2)] - A[(i1,j1)],A[(i3,j3)] - A[(i1,j1)]])
+            # Proceed only if  the syst of lin eq is uniquely solvable
+            if (0 != np.linalg.det(B)):
+                x = np.linalg.solve(B, b)
+                # Check if it is actually a maximum
+                if (abs(np.max(evaluate_trop_monomials(x[0],x[1],A)) - A[(i1,j1)] - i1*x[0] - j1*x[1]) < eps):
+                    x_vals_triple.append(x[0])
+                    y_vals_triple.append(x[1])
+                    is_triple.append(np.array([i1,i2,i3]))
+                    js_triple.append(np.array([j1,j2,j3]))
+                    if (x[0] <= a_x) or (x[0] >= b_x) or (x[1] <= a_y) or (x[1] >= b_y):
+                        # If a vertex of the curve is not in the plot, it will look weird, and you will probably be unhappy with the plot
+                        print(f"The point ({x[0]},{x[1]}) is not in your plotting range, which could be a problem...")
 
         ''' Compute the intersection points of the curve with the boundary of the plot'''
 
@@ -322,56 +287,53 @@ def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
         is_bdry = [] # List of length 2 arrays, the x-exponents of the maximal monomials
         js_bdry = [] # List of length 2 arrays, the y-exponents of the maximal monomials
 
-        # Walk through matrix A, check all pairs of monomials
-        for i in range(number_of_monomials-1):
-            for j in range(i+1,number_of_monomials):
-                ## Solve for points on boundary where a value is attained twice
-                # Recovers the exponents from the linear counting
-                i1,j1 = get_exponent(non_infty_entries[i],max_exponent)
-                i2,j2 = get_exponent(non_infty_entries[j],max_exponent)
+        # Check all pairs of monomials
+        for ((i1,j1),(i2,j2)) in itertools.combinations(A,2):
+            ## Solve for points on boundary where a value is attained twice
 
-                rhs_a_x = A[i2,j2] + (i2 - i1)* a_x - A[i1,j1]
-                rhs_b_x = A[i2,j2] + (i2 - i1)* b_x - A[i1,j1]
-                rhs_a_y = A[i2,j2] + (j2 - j1)* a_y - A[i1,j1]
-                rhs_b_y = A[i2,j2] + (j2 - j1)* b_y - A[i1,j1]
-                if (j1-j2 != 0): # if equation solvable
-                    # if max is actually attained
-                    if (abs(np.max(evaluate_trop_monomials(a_x,(1/(j1-j2))*rhs_a_x,A,non_infty_entries,max_exponent))- A[i1,j1] - i1*a_x - j1*(1/(j1-j2))*rhs_a_x) < eps):
-                        val_bdry = (1/(j1-j2))*rhs_a_x
-                        # if point in plotting range
-                        if (val_bdry >= a_y) and (val_bdry <= b_y):
-                            x_vals_bdry.append(a_x)
-                            y_vals_bdry.append(val_bdry)
-                            is_bdry.append(np.array([i1,i2]))
-                            js_bdry.append(np.array([j1,j2]))
-                    # if max is actually attained
-                    if (abs(np.max(evaluate_trop_monomials(b_x,(1/(j1-j2))*rhs_b_x,A,non_infty_entries,max_exponent)) - A[i1,j1] - i1*b_x - j1*(1/(j1-j2))*rhs_b_x) < eps):
-                        val_bdry = (1/(j1-j2))*rhs_b_x
-                        # if point in plotting range
-                        if (val_bdry >= a_y) and (val_bdry <= b_y):
-                            x_vals_bdry.append(b_x)
-                            y_vals_bdry.append(val_bdry)
-                            is_bdry.append(np.array([i1,i2]))
-                            js_bdry.append(np.array([j1,j2]))
-                if (i1-i2 != 0):# if equation solvable
-                    # if max is actually attained
-                    if (abs(np.max(evaluate_trop_monomials((1/(i1-i2))*rhs_a_y,a_y,A,non_infty_entries,max_exponent))- A[i1,j1] - i1*(1/(i1-i2))*rhs_a_y - j1*a_y) < eps):
-                        val_bdry = (1/(i1-i2))*rhs_a_y
-                        # if point in plotting range
-                        if (val_bdry >= a_x) and (val_bdry <= b_x):
-                            x_vals_bdry.append(val_bdry)
-                            y_vals_bdry.append(a_y)
-                            is_bdry.append(np.array([i1,i2]))
-                            js_bdry.append(np.array([j1,j2]))
-                    # if max is actually attained
-                    if (abs(np.max(evaluate_trop_monomials((1/(i1-i2))*rhs_b_y,b_y,A,non_infty_entries,max_exponent))- A[i1,j1] - i1*(1/(i1-i2))*rhs_b_y - j1*b_y) < eps):
-                        val_bdry = (1/(i1-i2))*rhs_b_y
-                        # if point in plotting range
-                        if (val_bdry >= a_x) and (val_bdry <= b_x):
-                            x_vals_bdry.append(val_bdry)
-                            y_vals_bdry.append(b_y)
-                            is_bdry.append(np.array([i1,i2]))
-                            js_bdry.append(np.array([j1,j2]))
+            rhs_a_x = A[(i2,j2)] + (i2 - i1)* a_x - A[(i1,j1)]
+            rhs_b_x = A[(i2,j2)] + (i2 - i1)* b_x - A[(i1,j1)]
+            rhs_a_y = A[(i2,j2)] + (j2 - j1)* a_y - A[(i1,j1)]
+            rhs_b_y = A[(i2,j2)] + (j2 - j1)* b_y - A[(i1,j1)]
+
+            if (j1-j2 != 0): # if equation solvable
+                # if max is actually attained
+                if (abs(np.max(evaluate_trop_monomials(a_x,(1/(j1-j2))*rhs_a_x,A))- A[(i1,j1)] - i1*a_x - j1*(1/(j1-j2))*rhs_a_x) < eps):
+                    val_bdry = (1/(j1-j2))*rhs_a_x
+                    # if point in plotting range
+                    if (val_bdry >= a_y) and (val_bdry <= b_y):
+                        x_vals_bdry.append(a_x)
+                        y_vals_bdry.append(val_bdry)
+                        is_bdry.append(np.array([i1,i2]))
+                        js_bdry.append(np.array([j1,j2]))
+                # if max is actually attained
+                if (abs(np.max(evaluate_trop_monomials(b_x,(1/(j1-j2))*rhs_b_x,A)) - A[(i1,j1)] - i1*b_x - j1*(1/(j1-j2))*rhs_b_x) < eps):
+                    val_bdry = (1/(j1-j2))*rhs_b_x
+                    # if point in plotting range
+                    if (val_bdry >= a_y) and (val_bdry <= b_y):
+                        x_vals_bdry.append(b_x)
+                        y_vals_bdry.append(val_bdry)
+                        is_bdry.append(np.array([i1,i2]))
+                        js_bdry.append(np.array([j1,j2]))
+            if (i1-i2 != 0):# if equation solvable
+                # if max is actually attained
+                if (abs(np.max(evaluate_trop_monomials((1/(i1-i2))*rhs_a_y,a_y,A))- A[(i1,j1)] - i1*(1/(i1-i2))*rhs_a_y - j1*a_y) < eps):
+                    val_bdry = (1/(i1-i2))*rhs_a_y
+                    # if point in plotting range
+                    if (val_bdry >= a_x) and (val_bdry <= b_x):
+                        x_vals_bdry.append(val_bdry)
+                        y_vals_bdry.append(a_y)
+                        is_bdry.append(np.array([i1,i2]))
+                        js_bdry.append(np.array([j1,j2]))
+                # if max is actually attained
+                if (abs(np.max(evaluate_trop_monomials((1/(i1-i2))*rhs_b_y,b_y,A))- A[(i1,j1)] - i1*(1/(i1-i2))*rhs_b_y - j1*b_y) < eps):
+                    val_bdry = (1/(i1-i2))*rhs_b_y
+                    # if point in plotting range
+                    if (val_bdry >= a_x) and (val_bdry <= b_x):
+                        x_vals_bdry.append(val_bdry)
+                        y_vals_bdry.append(b_y)
+                        is_bdry.append(np.array([i1,i2]))
+                        js_bdry.append(np.array([j1,j2]))
 
         '''Now we have all points at wich edges start and end'''
         # We check which points we should connect with a line
@@ -423,13 +385,13 @@ def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
                 # Compute the coordinates of the point between the vertices
                 mid_x = (all_vertices[i][0] + all_vertices[j][0])/2
                 mid_y = (all_vertices[i][1] + all_vertices[j][1])/2
-                val = np.max(evaluate_trop_monomials(mid_x,mid_y,A,non_infty_entries,max_exponent))
+                val = np.max(evaluate_trop_monomials(mid_x,mid_y,A))
                 a = []
                 b = []
                 for exp in all_vertices_exp[i]: # Fill a with the values of the monomials of vertex 0 at the middle point
-                    a.append(A[exp[0],exp[1]] + exp[0] * mid_x + exp[1] * mid_y)
+                    a.append(A[(exp[0],exp[1])] + exp[0] * mid_x + exp[1] * mid_y)
                 for exp in all_vertices_exp[j]: # Fill b with the values of the monomials of vertex 1 at the middle point
-                    b.append(A[exp[0],exp[1]] + exp[0] * mid_x + exp[1] * mid_y)
+                    b.append(A[(exp[0],exp[1])] + exp[0] * mid_x + exp[1] * mid_y)
 
                 a_ind, b_ind = get_values_indices(a,b,val,eps)
 
@@ -459,8 +421,7 @@ def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
         '''Computations for the dual'''
         # First, we need to compute the degree of the polynomial
         degF = 0
-        for i in range(number_of_monomials):
-            i1,j1 = get_exponent(non_infty_entries[i],max_exponent)
+        for (i1,j1) in A:
             if (i1 + j1 > degF):
                 degF = i1 + j1
                 
@@ -486,7 +447,7 @@ def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
         # Draw the lines
         if print_tikz_code_curve:
             print("% --- tikz code for the curve ---")
-            print("%" + "$F = " + f"{write_the_polynomial(A,non_infty_entries,max_exponent,eps,False)}" + "$")
+            print("%" + "$F = " + f"{write_the_polynomial(A,eps,False)}" + "$")
             for i in range(len(x_edge_vals)):
                 plt.plot(x_edge_vals[i],y_edge_vals[i],color=color_curve)
                 if show_weights and (edge_weights[i] > 1):
@@ -517,8 +478,8 @@ def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
 
         # Write the polynomial as title of the plot
         if use_min:
-            A = change_signs_of_polynomial(A,non_infty_entries,max_exponent)
-        plt.title(f"{write_the_polynomial(A,non_infty_entries,max_exponent,eps,True)}")
+            A = change_signs_of_polynomial(A)
+        plt.title(f"{write_the_polynomial(A,eps,True)}")
 
         # What are the axes called?
 
