@@ -41,7 +41,7 @@
             For more details on how to make this script work, what the options do, which inputs are allowed and how to configure default values, see <a href="#On plotting tropical curves">here</a>.
             
             <h3 id="Plotting tropical hypersurfaces">Plotting tropical hypersurfaces in three dimensions</h3>
-            You can find a Python script for plotting tropical hypersurfaces in \(\mathbb{R}^3\) <a href="plot_tropical_hypersurfaces_3dim.py"> here</a>. An even easier-to-use program written 
+            You can find a Python script for plotting tropical hypersurfaces in \(\mathbb{R}^3\) <a href="plot_tropical_hypersurfaces_3dim.py"> here</a>. It uses the packages matplotlib, numpy and scipy. An even easier-to-use program written 
             by Lars Allermann can be found <a href="https://www.math.uni-tuebingen.de/de/forschung/algebra/personen/prof-dr-thomas-markwig/software-fuer-tropische-geometrie"> here</a>.<br>
             My script, however, does plot the edges of the dual subdivision, too. There is no support for min-convention yet and you have to do the input directly in the file. Running it will immediately show you the plots. 
             This script uses the packages numpy, matplotlib and scipy.
@@ -60,25 +60,25 @@
                 I use Windows, so here is how it worked for me: Download Python from <a href="https://www.python.org/downloads/">the official website</a>. Install it - AND make sure that you 
                 pick the "Add Python to PATH" during the installation. <br>
                 Download pip with the command "curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py" in the command prompt (You find that by pressing the Windows key and then typing cmd. The "" are not part of the command). 
-                Install pip with the command "python get-pip.py". Use the commands "pip install numpy", "pip install matplotlib" to install the two packages. "math", "re" and "tkinter" are pre-installed.<br>
+                Install pip with the command "python get-pip.py". Use the commands "pip install numpy", "pip install matplotlib", "pip install scipy" to install the three packages.<br>
                 If you use Linux or macOS: Ask chatGPT how to install everything. You might need to install "tkinter" explicitly, too.
                 <h4>The options</h4>
                 <ul>
                     <li>If you tick "use max-convention", the polynomial will be interpreted as a tropical polynomial 
                         where "+" means max. Else "+" will mean min.</li>
-                    <li>x-range and y-range define the plotting range</li>
-                    <li>Color of curve/dual subdivision/Newton polygon: Changes the color of the curve/dual subdivision/Newton polygon, also in the tikz code</li>
-                    <li>If you tick "Draw a grid", the plot will show a grid. This does not affect the tikz code</li>
+                    <li>x-range and y-range define the plotting range.</li>
+                    <li>Color of curve/dual subdivision/Newton polygon: Changes the color of the curve/dual subdivision/Newton polygon, also in the tikz code.</li>
+                    <li>If you tick "Draw a grid", the plot will show a grid. This does not affect the tikz code.</li>
                     <li>If you tick "Print ends of edges", the coordinates of the vertices of the curve and of its intersection points with the boundary of the plotting range will get printed.</li>
-                    <li>If you tick "Show weights of edges", the weights bigger than 1 will occur both in the plot and in the tikz code</li>
-                    <li>The options "Size of weights" and "Color of weights" change size and color of the weights both in the plot and in the tikz code </li>
+                    <li>If you tick "Show weights of edges", the weights bigger than 1 will occur both in the plot and in the tikz code.</li>
+                    <li>The options "Size of weights" and "Color of weights" change size and color of the weights both in the plot and in the tikz code.</li>
                     <li>The last two options decide whether the tikz code for the curve, resp. its dual, will get printed. If you print the code for the curve, you will also get the LaTeX code of the tropical polynomial.</li>
                 </ul>
                 <h4>Input</h4>
                 Some remarks about the input
                 <ul>
                     <li>In the input for the polynomial, blanks, "^", "*", parenthesis "(" and ")" will be ignored and "+-" will be handled like a "-". "+" and "-" always seperate monomials. For a monomial with no coefficient,
-                        the coefficient is assumed to be 0. "3x2y" and "3yx2" are interpreted as the same term. Coefficients of monomials will be added if possible, i.e. "3xy + 4yx" gets simplified to "4xy" if max-convention is active, else to "3xy".</li>
+                        the coefficient is assumed to be 0. The order of x and y doesn't matter, that is "3x2y" and "3yx2" are interpreted as the same term. Coefficients of monomials will be added if possible, i.e. "3xy + 4yx" gets simplified to "4xy" if max-convention is active, else to "3xy".</li>
                     <li>Coefficients of the polynomial and the values for the x- and y-range should differ by more than 0.00000000000001. This is because two numbers are considered equal if they differ by less than 0.00000000000001.</li>
                     <li>The allowed colors are all colors allowed in matplotlib. However, the same color gets used for the tikz code, so if you use 
                         this option, make sure that it is also a tikz-color. Colors that work for both are for example: blue, black, red, green, cyan, magenta, yellow, orange, purple, pink, brown, gray, lime, olive, violet and teal
