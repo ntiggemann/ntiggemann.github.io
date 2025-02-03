@@ -393,8 +393,8 @@ def plot_trop_polynomial(poly_str,a_x,b_x,a_y,b_y,use_min,
         for i in range(number_of_vertices-1):
             for j in range(i+1,number_of_vertices):
                 # Compute the coordinates of the point between the vertices
-                mid_x = (10*math.pi*all_vertices[i][0] + 0.0001*all_vertices[j][0])/(10*math.pi* + 0.0001)
-                mid_y = (10*math.pi*all_vertices[i][1] + 0.0001*all_vertices[j][1])/(10*math.pi* + 0.0001)
+                mid_x = (10*math.pi*all_vertices[i][0] + 0.0001*all_vertices[j][0])/(10*math.pi + 0.0001)
+                mid_y = (10*math.pi*all_vertices[i][1] + 0.0001*all_vertices[j][1])/(10*math.pi + 0.0001)
                 val = np.max(evaluate_trop_monomials(mid_x,mid_y,A))
                 a = []
                 b = []
