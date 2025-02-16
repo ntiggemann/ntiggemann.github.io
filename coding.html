@@ -22,14 +22,14 @@
     <section>
         <h2>Coding</h2>
         <ul>
-            <li><a href="#Plotting tropical curves">Plotting tropical curves</a></li>
-            <li><a href="#Plotting with an app">An app to plot tropical curves</a></li>
-            <li><a href="#Plotting tropical hypersurfaces">Plotting tropical hypersurfaces</a></li>
-            <li><a href="#How to get a website">Get your own website</a></li>
+            <li><a href="#Plotting_tropical_curves">Plotting tropical curves</a></li>
+            <li><a href="#Plotting_with_an_app">An app to plot tropical curves</a></li>
+            <li><a href="#Plotting_tropical_hypersurfaces">Plotting tropical hypersurfaces</a></li>
+            <li><a href="#How_to_get_a_website">Get your own website</a></li>
         </ul>
         <p>
-            <h3 id="Plotting tropical curves">Plotting tropical curves</h3>
-                You can download a Python script for plotting tropical curves defined by a tropical polynomial by clicking <a href="plot_tropical_curves_v2.3.py">here</a>. The same script, but as a .exe file can be downloaded by clicking <a href="plot_tropical_curves_v2.3.exe">here</a>.
+            <h3 id="Plotting_tropical_curves">Plotting tropical curves</h3>
+                You can download a Python script for plotting tropical curves defined by a tropical polynomial by clicking <a href="plot_tropical_curves_v2.3.1.py">here</a>. The same script, but as a .exe file can be downloaded by clicking <a href="plot_tropical_curves_v2.3.1.exe">here</a>.
                 The script also plots the dual subdivision and can print the tikz code for the figures.<br>
                 It uses the packages numpy, matplotlib and tkinter.<br>
                 If you are on Windows, you can just download the exe-version and are ready to go.
@@ -40,26 +40,26 @@
                         "\(0\oplus 2\odot x^{1}y^{1}\oplus 0\odot x^{2}\oplus (-0.1)\odot x^{2}y^{1}\)" is "x2+2xy-0.1x2y+0".</li>
                     <li>Hitting the plot button will generate two figures, one of the curve, one of its dual subdivision and print all the things you specified in the options.</li>
                 </ul>
-                For more details on how to make this script work, what the options do, which inputs are allowed and how to configure default values, see <a href="#On plotting tropical curves">here</a>.
-            <h3 id="Plotting with an app">An app to plot tropical curves</h3>
-                I wrote an android app that allows you to plot tropical curves and their dual subdivision. You can find an APK-file <a href="tropplotcurvesv0.3.apk">here</a>. Run this file on an android device to install the app. Android will be suspicious about the file as it does not come from the app store.<br>
+                For more details on how to make this script work, what the options do, which inputs are allowed and how to configure default values, see <a href="#On_plotting_tropical_curves">here</a>.
+            <h3 id="Plotting_with_an_app">An app to plot tropical curves</h3>
+                I wrote an android app that allows you to plot tropical curves and their dual subdivision. You can find an APK-file <a href="tropplotcurvesv0.4.apk">here</a>. Run this file on an android device to install the app. Android will be suspicious about the file as it does not come from the app store.<br>
                 The app is very simplistic and unpolished, however, it does its job. It was written and build using BeeWare. The input for the polynomial works like described above. The plotting range is adjusted automatically. There are no error messages implemented, so you should check if the plot looks weird by yourself.
-            <h3 id="Plotting tropical hypersurfaces">Plotting tropical hypersurfaces in three dimensions</h3>
-                You can find a Python script for plotting tropical hypersurfaces in \(\mathbb{R}^3\) <a href="plot_tropical_hypersurfaces_3dim.py"> here</a>. It uses the packages matplotlib, numpy and scipy. An even easier-to-use program written 
+            <h3 id="Plotting_tropical_hypersurfaces">Plotting tropical hypersurfaces in three dimensions</h3>
+                You can find a Python script for plotting tropical hypersurfaces in \(\mathbb{R}^3\) <a href="plot_tropical_hypersurfaces_3dim_v1.3.py"> here</a>. It uses the packages matplotlib, numpy and scipy. An even easier-to-use program written 
                 by Lars Allermann can be found <a href="https://www.math.uni-tuebingen.de/de/forschung/algebra/personen/prof-dr-thomas-markwig/software-fuer-tropische-geometrie"> here</a>.<br>
                 My script, however, does plot the edges of the dual subdivision, too. There is no support for min-convention yet and you have to do the input directly in the file. Running it will immediately show you the plots. 
                 This script uses the packages numpy, matplotlib and scipy.
                 <br>
-                For more details on how to make this script work and how the input works, see <a href="#On plotting tropical hypersurfaces">here</a>.
+                For more details on how to make this script work and how the input works, see <a href="#On_plotting_tropical_hypersurfaces">here</a>.
                 <h3>Disclaimer</h3>
                 Use all the scripts on this website at your own risk. I am confident that they work very well for reasonable input, however, I do not guarantee that all outputs are correct.
-                If you find any bugs, please <a href="https://www.mathematik.tu-darmstadt.de/fb/personal/details/nathan_tiggemann.de.jsp">contact</a> me.
+                If you find any bugs, please <a href="https://www.mathematik.tu-darmstadt.de/fb/personal/details/nathan_tiggemann.de.jsp">contact</a> me after you made sure that you are using the latest version.
                 I only learned Python to write these scripts, so don't be surprised if my codes might not be the most elegant or efficient ones ever written. 
         </p>
     </section>
     <section>
         <p>
-            <h3 id="On plotting tropical curves">On plotting tropical curves</h3>
+            <h3 id="On_plotting_tropical_curves">On plotting tropical curves</h3>
                 <h4>How to install Python and necessary packages</h4>
                 I use Windows, so here is how it worked for me: Download Python from <a href="https://www.python.org/downloads/">the official website</a>. Install it - AND make sure that you 
                 pick the "Add Python to PATH" during the installation. <br>
@@ -105,11 +105,18 @@
                 <h4>Why I wrote this script</h4>
                 There are already existing programs to plot tropical curves. And they are probably faster, more elegant, and use only algebraic methods. 
                 My motivations for writing this script were mostly the following two: Writing it was fun and it is easy to use. This is also why I tried to keep all explanations very low level.
-        </p>
+                <h4>About old versions of the algorithm</h4>
+                The very first version of this script used the following logic: "If you compute the vertices of a tropical curve and connect them if their middle point is part of the curve you end up with the curve".
+                However, this approach is not correct: For example if you consider the input "-4+y+x-1x2-1y2+1xy-1xy2-1yx2" the points (-4,-4) and (2,2) would falsely get connected.<br>
+                After realizing this, I updated the code to also check if the maximum at the middle point was attained by monomials that are part of the maximal monomials at the vertices. However, this is not correct either:
+                For "y+x+x2+y2" the points on the diagonal that intersect with the boundary of the plotting range would get connected and this edge would get a weight 2 assigned.<br>
+                Since version 2.3 of the .exe/.py file and 0.4 of the app the following statement is used: "Let x,y be two points on a tropical curve with 2 common monomials that are maximal. Then all convex combinations of them are part of the curve". 
+                This follows from the convexity of the graphs of tropical polynomial functions.
+            </p>
     </section>
     <section>
         <p>    
-            <h3 id="On plotting tropical hypersurfaces">On plotting tropical hypersurfaces in three dimensions</h3>
+            <h3 id="On_plotting_tropical_hypersurfaces">On plotting tropical hypersurfaces in three dimensions</h3>
                 <h4>How to install Python and necessary packages</h4>
                 I use Windows, so here is how it worked for me: Download Python from <a href="https://www.python.org/downloads/">the official website</a>. 
                 Install it - and make sure that you pick the "Add Python to PATH" during the installation. <br>
@@ -133,11 +140,15 @@
                 There are already existing programs to plot tropical hypersurfaces. And they are probably faster, more elegant, and use only algebraic methods. 
                 My motivations for writing this script were mostly the following two: Writing it was fun and it is easy to use (This is also why I tried to keep all explanations very low level.). 
                 At the time I didn't know the program by Lars Allermann. Still, plotting the dual is an advantage my script has.
+                <h4>About old versions of the algorithm</h4>
+                The old versions of this script followed the same ideas as the algorithm for the two-dimensional case to construct the one-dimensional faces.<br>
+                Since version 1.3 the following statement is used: "Let x,y be two points on a tropical hypersurface with 3 common monomials that are maximal. Then for all convex combinations of these two points the max is attained by these three monomials". 
+                This follows from the convexity of the graphs of tropical polynomial functions.
         </p>
         </section>
         <section>
         <p>
-            <h3 id="How to get a website">How to get a website like this</h3>
+            <h3 id="How_to_get_a_website">How to get a website like this</h3>
                 <h4>Website Hosting</h4>
                 This website is hosted on GitHub. <a href="https://pages.github.com/">Here</a> is a good reference on how to start your own website. Thanks to <a href="https://tbrazel.github.io/index.html">Thomas Brazelton</a> for this hint!
                 <h4>Writing the HTML code</h4>
