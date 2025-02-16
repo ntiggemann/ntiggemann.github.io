@@ -946,7 +946,7 @@ def main():
     instruction = tk.Label(
             scrollable_frame,
             text=(
-                "Version 2.3.0 \n Author: Nathan Tiggemann"
+                "Version 2.3.1 \n Author: Nathan Tiggemann"
             ),
             font=("Arial", 8),
             justify="center",  # Center text
