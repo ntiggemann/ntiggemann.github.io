@@ -1,6 +1,7 @@
 ###############################
 # This script prints the product of bivariate tropical polynomials, so that it can be
 # used in my program to plot tropical curves
+# v1.1
 ###############################
 
 ''' Preamble '''
@@ -8,8 +9,6 @@
 import numpy as np
 import re as re
 import itertools
-# Auxiliar-minus-infty - just some very negative number
-infty = -9999999999999999 #DO NOT CHANGE, even if you want to use the min convention!
 
 ''' Define the polynomials '''
 # Should we use min? (False or True)
