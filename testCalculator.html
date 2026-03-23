@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Rechner</title>
+</head>
+<body>
+
+<h1>Einfacher Browser-Rechner</h1>
+
+<input id="a" type="number" placeholder="Zahl 1">
+<input id="b" type="number" placeholder="Zahl 2">
+
+<button onclick="addiere()">Addieren</button>
+
+<p id="ergebnis"></p>
+
+<script>
+function addiere() {
+    let a = parseFloat(document.getElementById("a").value);
+    let b = parseFloat(document.getElementById("b").value);
+
+    let summe = a + b;
+
+    document.getElementById("ergebnis").innerText = "Ergebnis: " + summe;
+}
+</script>
+
+</body>
+</html>
