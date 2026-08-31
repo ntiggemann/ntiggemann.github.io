@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Coding projects: Plotting tropical curves and hypersurfaces.">
+    <meta name="robots" content="index, follow">
+    <title>Nathan Tiggemann</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Nathan Tiggemann</h1>
+    </header>
+    <nav>
+        <a href="index.html" title="Home">Home</a>
+        <a href="research.html" title="Research projects">Research</a>
+        <a href="plotTropCurves.html" title="Plot tropical curves" class="active">Plotting</a>
+        <a href="coding.html" title="Coding projects">Coding</a>
+        <a href="teaching.html" title="Teaching">Teaching</a>
+    </nav>
+    <section>
+        <h2>Tropical Polynom Plotter</h2>
+        <form id="plotForm">
+            <!--Polynom Input-->
+            <div class="poly-input">
+                <input id="poly" type="text" placeholder="e.g. x^3 - 2*x + 1">
+                <button type="submit">Plot</button>
+            </div>
+            
+
+            <div id="error"></div>
+
+            <!-- More Options:-->
+            <details>
+                <summary>Settings</summary>
+                <form id="options">
+                    <fieldset>
+                        <div class="checkboxes">
+                            <label  title="If checked, the tropical numbers are considered with addition taking the maximum. If not, addition is minimum.">
+                                <input type="checkbox" id="useMax" checked>
+                                Use max-convention
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Automate plotting range:</legend>
+                        <div class="checkboxes">
+                            <label title="Automatically adjusts the plotting range such that no vertices are missed">
+                                <input type="checkbox" id="autoAdjust" checked>
+                                Auto-adjust range
+                            </label>
+                            <label title="Additionally forces the plotting range to be a square">
+                                <input type="checkbox" id="autoSquare" checked>
+                                Make plot a square
+                            </label>
+                            <label title="The minimal distance of vertices to the boundary of the plot">
+                                Min distance vertex to boundary:
+                                <input type="number" id="autoBoundaryDist" value="1" style="width:60px;">
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Settings for manual plotting range:</legend>  
+                        <div class="checkboxes">
+                            <div>
+                                <label title="Enter the range of values for the x coordinate">x-range:
+                                <input type="number" id="aX" value="-5" style="width:60px;">
+                                <input type="number" id="bX" value="5" style="width:60px;">
+                                </label>
+                            </div>
+                            <div>        
+                                <label title="Enter the range of values for the y coordinate">y-range:
+                                <input type="number" id="aY" value="-5" style="width:60px;">
+                                <input type="number" id="bY" value="5" style="width:60px;">
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </details>
+        </form>
+        <br>
+        <div class="plots">
+            <svg id="plot"
+                viewBox="-10 -10 20 20"
+                preserveAspectRatio="xMidYMid meet">
+            </svg>
+            <svg id="plotDS"
+                viewBox="-10 -10 20 20"
+                preserveAspectRatio="xMidYMid meet">
+            </svg>
+        </div>
+        <button id="latexButton">TikZ for curve</button>
+        <button id="latexButtonDS">TikZ for DS</button>
+        <div id="latexPopup" class="popup">
+            <div class="popup-content">
+                <button class="close-button" id="closeLatexButton">×</button>
+
+                <h3>TikZ-code for the curve</h3>
+
+                <textarea id="latexOutput" readonly></textarea>
+
+                <button id="copyLatexButton">Copy</button>
+            </div>
+        </div>
+        <div id="latexPopupDS" class="popup">
+            <div class="popup-content">
+                <button class="close-button" id="closeLatexButtonDS">×</button>
+
+                <h3>TikZ-code for the dual subdivision</h3>
+
+                <textarea id="latexOutputDS" readonly></textarea>
+
+                <button id="copyLatexButtonDS">Copy</button>
+            </div>
+        </div>
+        <script src="plotTropCurves.js"></script>
+    </section>
+    <footer>
+        <p>&copy; 2026 Nathan Tiggemann</p>
+    </footer>
+</body>
+</html>
