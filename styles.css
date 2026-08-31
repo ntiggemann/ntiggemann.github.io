@@ -14,7 +14,9 @@ header {
 }
 nav {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 0.5rem 1rem;
     background: #444;
 }
 nav a {
@@ -33,7 +35,7 @@ nav a.active {
 section {
     padding: 2rem;
     margin: 2rem auto;
-    max-width: 800px;
+    max-width: 90%;
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -43,4 +45,121 @@ footer {
     padding: 1rem 0;
     background: #333;
     color: #fff;
+}
+button { padding: 6px 10px; }
+canvas { margin-top: 20px; }
+.input-row {
+    display: flex;
+    gap: 10px;
+    width: 290px;
+}
+
+.input-row input {
+    flex: 0.8;
+}
+
+#plot {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#plotDS {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+    position: relative;
+    background-color: white;
+    width: 600px;
+    max-width: 80%;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+#latexOutput {
+    width: 100%;
+    height: 300px;
+    box-sizing: border-box;
+    font-family: monospace;
+    resize: vertical;
+}
+
+#latexOutputDS {
+    width: 100%;
+    height: 300px;
+    box-sizing: border-box;
+    font-family: monospace;
+    resize: vertical;
+}
+
+.close-button {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    border: none;
+    background: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.plots {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.plots svg {
+    flex: 1;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+}
+
+@media (max-aspect-ratio: 1 / 1) {
+    .plots {
+        flex-direction: column;
+    }
+
+    .plots svg {
+        width: 100%;
+    }
+}
+
+.poly-input {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+
+#poly {
+    flex: 1;
+    min-width: 0;
+}
+
+.checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 20px;
+}
+
+
+.checkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    width: fit-content;
 }
