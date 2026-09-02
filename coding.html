@@ -22,20 +22,39 @@
     </nav>
     <section>
         <h2>Coding</h2>
-        On this page you can find some of my coding projects related to tropical geometry.<br>
+        On this page you can find some of my coding projects, most are related to tropical geometry.<br>
         Here are links to the projects:
         <ul>
-            <li><a href="#Plotting_tropical_curves">Plotting tropical curves</a></li>
-            <li><a href="#Plotting_with_an_app">An app to plot tropical curves</a></li>
-            <li><a href="#Plotting_tropical_hypersurfaces">Plotting tropical hypersurfaces</a></li>
+            <li><a href="#Plotting_curves_browser">Plotting tropical curves - in your browser</a></li>
+            <li><a href="#Plotting_tropical_curves">Plotting tropical curves - Python and Windows</a></li>
+            <li><a href="#Plotting_with_an_app">An android-app to plot tropical curves</a></li>
+            <li><a href="#Plotting_tropical_hypersurfaces">Plotting tropical hypersurfaces in \(\mathbb{R}^3\)</a></li>
             <li><a href="#Multiply_trop_polys">Multiplying tropical polynomials</a></li>
             <li><a href="#How_to_get_a_website">Get your own website</a></li>
         </ul>
     </section>
     <section>
         <p>
-            <h3 id="Plotting_tropical_curves">Plotting tropical curves</h3>
-                You can download a Python script for plotting tropical curves defined by a tropical polynomial by clicking <a href="plot_tropical_curves_v2.3.1.py">here</a>. The same script, but as a .exe file can be downloaded by clicking <a href="plot_tropical_curves_v2.3.1.exe">here</a>.
+            <h3 id="Plotting_curves_browser">Plotting tropical curves - in your browser</h3>
+                Over <a href="plotTropCurves.html">here</a> you can plot tropical curves and their duals directly in your browser. The mathematical computations are a direct port of the Python-version to Javascript, hence the input works just as there.
+                Here are short notes on how to use the browser-version:
+                <ul>
+                    <li>The input for the polynomial works as follows: For a term "\( a\odot x^iy^j\oplus b\odot x^ky^l\)", the input has to be "axiyj+bxkyl". So e.g. the minimal input for 
+                        "\(0\oplus 2\odot x^{1}y^{1}\oplus 0\odot x^{2}\oplus (-0.1)\odot x^{2}y^{1}\)" is "x2+2xy-0.1x2y+0".</li>
+                    <li>Hitting the plot or enter button will generate two figures, one of the curve and one of its dual subdivision.</li>
+                    <li>At the bottom of the page you can find the tikz-code for the figures.</li>
+                    <li>The  settings do the following:
+                        <ul>
+                            <li>Use max-convention: Decides whether a sum gets interpreted as taking max or min.</li>
+                            <li>Auto-adjust range: Automatically adjusts the plotting range such that all vertices can be seen in the plot.</li>
+                            <li>Make plit a square: Forces an automatically adjusted range to be a square.</li>
+                            <li>Min distace vertex to boundary: Forces an automatically adjusted range to keep the specified distande to the vertices.</li>
+                            <li>Settings for manual plotting range: Here you can decide which rectangle you want to get a plot of. If not all vertices are in your range, you will get an error and a suggestion for a better range.</li>
+                        </ul>
+                    </li>
+                </ul>
+            <h3 id="Plotting_tropical_curves">Plotting tropical curves - Python and Windows</h3>
+                You can download a Python script for plotting tropical curves defined by a tropical polynomial by clicking <a href="plot_tropical_curves_v2.3.2.py">here</a>. The same script, but as a .exe file can be downloaded by clicking <a href="plot_tropical_curves_v2.3.2.exe">here</a>.
                 The script also plots the dual subdivision and can write the tikz code for the figures.<br>
                 It uses the packages numpy, matplotlib and tkinter.<br>
                 If you are on Windows, you can just download the exe-version and are ready to go.
@@ -47,8 +66,8 @@
                     <li>Hitting the plot button will generate two figures, one of the curve, one of its dual subdivision and write all the things you specified in the options in the empty window.</li>
                 </ul>
                 For more details on how to make this script work, what the options do, which inputs are allowed and how to configure default values, see <a href="#On_plotting_tropical_curves">here</a>.
-            <h3 id="Plotting_with_an_app">An app to plot tropical curves</h3>
-                I wrote an android app that allows you to plot tropical curves and their dual subdivisions. You can find an APK-file <a href="tropplotcurvesv0.4.apk">here</a>. Run this file on an android device to install the app. Android will be suspicious about the file as it does not come from the app store.<br>
+            <h3 id="Plotting_with_an_app">An android-app to plot tropical curves</h3>
+                I wrote an android app that allows you to plot tropical curves and their dual subdivisions - however, you should probably rather use the browser version over <a href="plotTropCurves.html">here</a>. You can find an APK-file <a href="tropplotcurvesv0.4.apk">here</a>. Run this file on an android device to install the app. Android will be suspicious about the file as it does not come from the app store.<br>
                 The app is very simplistic and unpolished, however, it does its job. It was written and built using BeeWare. The input for the polynomial works as described above. The plotting range is adjusted automatically. There are no error messages implemented, so you should check if the plot looks weird yourself.
             <h3 id="Plotting_tropical_hypersurfaces">Plotting tropical hypersurfaces in three dimensions</h3>
                 You can find a Python script for plotting tropical hypersurfaces in \(\mathbb{R}^3\) <a href="plot_tropical_hypersurfaces_3dim_v1.3.py"> here</a>. An even easier-to-use program written 
@@ -60,15 +79,13 @@
                 <h3>Disclaimer</h3>
                 Use all the scripts on this website at your own risk. I am confident that they work very well for reasonable input, however, I do not guarantee that all outputs are correct.
                 If you find any bugs, please <a href="https://www.mathematik.tu-darmstadt.de/fb/personal/details/nathan_tiggemann.de.jsp">contact</a> me after you made sure that you are using the latest version.
-                I only learned Python to write these scripts, so don't be surprised if my codes might not be the most elegant or efficient ones ever written. 
         </p>
     </section>
     <section>
         <p>
             <h3 id="On_plotting_tropical_curves">On plotting tropical curves</h3>
                 <h4>How to install Python and necessary packages</h4>
-                Here is how it worked for me, as a Windows user: Download Python from <a href="https://www.python.org/downloads/">the official website</a>. Install it - AND make sure that you 
-                pick the "Add Python to PATH" during the installation. <br>
+                Here is how it worked for me, as a Windows user: Make sure that you pick the "Add Python to PATH" during the installation of the Python version you can download from <a href="https://www.python.org/downloads/">the official website</a>.<br>
                 Download pip with the command "curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py" in the command prompt (You find that by pressing the Windows key and then typing cmd. The "" are not part of the command). 
                 Install pip with the command "python get-pip.py". Use the commands "pip install numpy", "pip install matplotlib" to install the two needed packages.<br>
                 If you use Linux or macOS: Ask the internet how to install everything. You might need to install "tkinter" explicitly, too.
@@ -111,13 +128,13 @@
                 </ul>
                 <h4>Why I wrote this script</h4>
                 There are already existing programs to plot tropical curves. And they are probably faster, more elegant, and use only algebraic methods. 
-                My motivations for writing this script were mostly the following two: Writing it was fun and it is easy to use. This is also why I tried to keep all explanations very low level.
+                My motivations for writing this script were mostly the following two: Writing it was fun and it is easy to use. This is also why I tried to keep all explanations low level.
                 <h4>About old versions of the algorithm</h4>
                 The very first version of this script used the following logic: "If you compute the vertices of a tropical curve and connect them if their middle point is part of the curve you end up with the curve".
                 However, this is not correct: For example if you consider the input "-4+y+x-1x2-1y2+1xy-1xy2-1yx2" the points (-4,-4) and (2,2) would falsely get connected.<br>
                 After realizing this, I updated the code to also check if the maximum at the middle point was attained by monomials that are part of the maximal monomials at the vertices. However, this is not correct either:
                 For "y+x+x2+y2" the points on the diagonal that intersect with the boundary of the plotting range would get connected and this edge would get a weight 2 assigned.<br>
-                Since version 2.3 of the .exe/.py file and 0.4 of the app the following statement is used: "Let x,y be two points on a tropical curve with 2 common monomials that are maximal. Then all convex combinations of them are part of the curve". 
+                Since version 2.3 of the .exe/.py file, 0.4 of the app and the first browser-version the following statement is used: "Let x,y be two points on a tropical curve with 2 common monomials that are maximal. Then all convex combinations of them are part of the curve". 
                 This follows from the convexity of the graphs of tropical polynomial functions.
             </p>
     </section>
@@ -145,7 +162,7 @@
                 Obviously, there are quite a few details I skipped here.
                 <h4>Why I wrote this script</h4>
                 There are already existing programs to plot tropical hypersurfaces. And they are probably faster, more elegant, and use only algebraic methods. 
-                My motivations for writing this script were mostly the following two: Writing it was fun and it is easy to use (This is also why I tried to keep all explanations very low level.). 
+                My motivations for writing this script were mostly the following two: Writing it was fun and it is easy to use (This is also why I tried to keep all explanations low level.). 
                 At the time I didn't know the program by Lars Allermann. Still, plotting the dual is an advantage my script has.
                 <h4>About old versions of the algorithm</h4>
                 The old versions of this script followed the same ideas as the algorithm for the two-dimensional case to construct the one-dimensional faces.<br>
@@ -157,7 +174,8 @@
         <p>
             <h3 id="Multiply_trop_polys"> Multiplying tropical polynomials</h3>
             You can download a small python script to multiply two tropical polynomials in variables \(x\) and \(y\) by clicking <a href="multiply_trop_polys_2d_v1.1.py"> here</a>. Input and output work as described above for the plotting of tropical curves.
-            This script is somewhat unpolished but does its job.
+            This script is somewhat unpolished but does its job.<br>
+            It is a small first step towards plotting intersections of tropical curves, a project I hope to find the time to do.
         </p>
         </section>
         <section>
