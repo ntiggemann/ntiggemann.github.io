@@ -163,3 +163,73 @@ canvas { margin-top: 20px; }
     gap: 3px;
     width: fit-content;
 }
+
+/* Two polynomial inputs (intersection plotter): labels, inputs, one button spanning both rows */
+.poly-inputs {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.poly-inputs input {
+    min-width: 0;
+}
+
+.poly-inputs button {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+}
+
+.curve-one {
+    color: blue;
+}
+
+.curve-two {
+    color: red;
+}
+
+/* Shift fields and button in one row (intersection plotter) */
+.shift-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Tiles on the tools page: square, wrap automatically with the screen width */
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+    gap: 20px;
+}
+
+.tile {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: #e4e4e4;
+    color: black;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.tile:hover {
+    background: #d6d6d6;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tile h3 {
+    margin: 0 0 0.5rem;
+}
+
+.tile p {
+    margin: 0;
+}

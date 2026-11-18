@@ -360,7 +360,176 @@ function ySVGCoords(y,aY,bY){
     return (10 - (y - aY)/(bY-aY) * 20);
 }
 
-function plotTropPolynomial(polyStr,aX,bX,aY,bY,useMin,autoAdjust,autoBoundaryDist,autoSquare){
+/*
+Coordinate lines in the plot of the curve
+*/
+
+// The number of intervals between coordinate lines the plotting range is divided into (approximately)
+const gridTargetIntervals = 8;
+
+function niceGridStep(a, b) {
+    /**
+     * Computes a "nice" distance between coordinate lines for the interval [a, b]:
+     * 1, 2 or 5 times a power of ten, such that [a, b] is divided into roughly
+     * gridTargetIntervals pieces.
+     *
+     * @param {number} a - Lower bound of the interval.
+     * @param {number} b - Upper bound of the interval.
+     * @returns {number} The distance, or NaN if the interval is degenerate.
+     */
+    const range = b - a;
+
+    if (!(range > 0) || !Number.isFinite(range)) {
+        return NaN;
+    }
+
+    const power = Math.pow(10, Math.floor(Math.log10(range / gridTargetIntervals)));
+
+    let bestStep = NaN;
+    let bestRatio = Infinity;
+
+    for (const factor of [1, 2, 5, 10]) {
+        const step = factor * power;
+        const intervals = range / step;
+        // How far the number of intervals is off from the target, as a factor >= 1
+        const ratio = Math.max(intervals / gridTargetIntervals, gridTargetIntervals / intervals);
+
+        if (ratio < bestRatio) {
+            bestRatio = ratio;
+            bestStep = step;
+        }
+    }
+
+    return bestStep;
+}
+
+function gridValues(a, b, step) {
+    /**
+     * Returns all integer multiples of step in the interval [a, b].
+     * Since 0 is a multiple of every step, the origin always lies on
+     * coordinate lines if it is in the plotting range.
+     *
+     * @param {number} a - Lower bound of the interval.
+     * @param {number} b - Upper bound of the interval.
+     * @param {number} step - Distance between coordinate lines.
+     * @returns {number[]} The values, rounded to remove floating point noise.
+     */
+    const tolerance = 1e-9;
+    // Number of decimal places needed to represent multiples of step exactly
+    const decimals = Math.max(0, -Math.floor(Math.log10(step) + tolerance));
+    const values = [];
+
+    for (let k = Math.ceil(a / step - tolerance); k <= Math.floor(b / step + tolerance); k++) {
+        values.push(Number((k * step).toFixed(decimals)));
+    }
+
+    return values;
+}
+
+function createSVGElement(tag, attributes) {
+    // Creates an SVG element with the given attributes
+    const element = document.createElementNS("http://www.w3.org/2000/svg", tag);
+
+    for (const [name, value] of Object.entries(attributes)) {
+        element.setAttribute(name, value);
+    }
+
+    return element;
+}
+
+function drawCoordinateLines(svg, aX, bX, aY, bY, showLabels) {
+    /**
+     * Draws coordinate lines (and optionally their labels) into the plot
+     * of the curve and appends the corresponding TikZ code to latexCode.
+     * The distances in x- and y-direction are chosen independently.
+     *
+     * @param {SVGElement} svg - The plot of the curve.
+     * @param {number} aX, bX, aY, bY - The plotting range.
+     * @param {boolean} showLabels - Whether to label the lines with their values.
+     */
+    const xStep = niceGridStep(aX, bX);
+    const yStep = niceGridStep(aY, bY);
+
+    if (Number.isNaN(xStep) || Number.isNaN(yStep)) {
+        return;
+    }
+
+    const xValues = gridValues(aX, bX, xStep);
+    const yValues = gridValues(aY, bY, yStep);
+
+    // Rounded plotting range for the TikZ code
+    const [aXTikz, bXTikz, aYTikz, bYTikz] = [aX, bX, aY, bY].map(v => Number(v.toFixed(10)));
+
+    const gridColor = "#d0d0d0";
+    const labelColor = "#808080";
+    const labelSize = 0.4; // in SVG units, the plot is 20 units wide
+    const labelGap = 0.1; // distance of labels to their line and to the boundary
+
+    latexCode = latexCode + "\n\\def\\colorGrid{black!20}";
+    if (showLabels) {
+        latexCode = latexCode + "\n\\def\\colorGridLabels{black!60}";
+    }
+
+    // Vertical lines, labels at the bottom (right of the line, left of it close to the right boundary)
+    for (const x of xValues) {
+        const xSVG = xSVGCoords(x, aX, bX);
+
+        svg.appendChild(createSVGElement("line", {
+            "x1": xSVG, "y1": -10, "x2": xSVG, "y2": 10,
+            "stroke": gridColor, "stroke-width": 0.02
+        }));
+
+        latexCode = latexCode + `\n\\draw[\\colorGrid, very thin] (${x},${aYTikz}) -- (${x},${bYTikz});`;
+
+        if (showLabels) {
+            const nearRightBoundary = xSVG > 10 - 3 * labelSize;
+            const label = createSVGElement("text", {
+                "x": nearRightBoundary ? xSVG - labelGap : xSVG + labelGap,
+                "y": 10 - 1.5 * labelGap,
+                "text-anchor": nearRightBoundary ? "end" : "start",
+                "font-size": labelSize,
+                "fill": labelColor
+            });
+            label.textContent = `${x}`;
+            svg.appendChild(label);
+
+            latexCode = latexCode + `\n\\node[\\colorGridLabels, below, font=\\scriptsize] at (${x},${aYTikz}) {$${x}$};`;
+        }
+    }
+
+    // Horizontal lines, labels at the left (above the line, below it close to the upper boundary)
+    for (const y of yValues) {
+        const ySVG = ySVGCoords(y, aY, bY);
+
+        svg.appendChild(createSVGElement("line", {
+            "x1": -10, "y1": ySVG, "x2": 10, "y2": ySVG,
+            "stroke": gridColor, "stroke-width": 0.02
+        }));
+
+        latexCode = latexCode + `\n\\draw[\\colorGrid, very thin] (${aXTikz},${y}) -- (${bXTikz},${y});`;
+
+        if (showLabels) {
+            // In the SVG, skip labels that would collide with the labels of the vertical lines at the bottom
+            if (ySVG < 10 - 2 * labelSize) {
+                const nearUpperBoundary = ySVG - labelGap - labelSize < -10;
+                const label = createSVGElement("text", {
+                    "x": -10 + 1.5 * labelGap,
+                    "y": nearUpperBoundary ? ySVG + labelGap + 0.75 * labelSize : ySVG - labelGap,
+                    "text-anchor": "start",
+                    "font-size": labelSize,
+                    "fill": labelColor
+                });
+                label.textContent = `${y}`;
+                svg.appendChild(label);
+            }
+
+            // In TikZ, the labels are outside the plotting range and do not collide
+            latexCode = latexCode + `\n\\node[\\colorGridLabels, left, font=\\scriptsize] at (${aXTikz},${y}) {$${y}$};`;
+        }
+    }
+}
+
+function plotTropPolynomial(polyStr,aX,bX,aY,bY,useMin,autoAdjust,autoBoundaryDist,autoSquare,showGrid,showGridLabels){
 
     // Get polynomial
     let A = parsePolynomialTrop(polyStr,useMin);
@@ -700,6 +869,11 @@ console.log(aX,bX,aY,bY);
         }
     }
 
+    // Draw coordinate lines first, such that the curve lies on top of them
+    if (showGrid) {
+        drawCoordinateLines(svg, aX, bX, aY, bY, showGridLabels);
+    }
+
     // 530ff: Draw Curve
     for (let i = 0; i<xEdgeVals.length; i++){
         let line = document.createElementNS(
@@ -807,12 +981,14 @@ function plotte(){
     const autoAdjust = document.getElementById("autoAdjust").checked;
     const autoBoundaryDist = document.getElementById("autoBoundaryDist").valueAsNumber;
     const autoSquare = document.getElementById("autoSquare").checked;
-    
+    const showGrid = document.getElementById("showGrid").checked;
+    const showGridLabels = document.getElementById("showGridLabels").checked;
+
     // Reset the initial LaTeX code: Color declarations for easier changes
     latexCode = "\\def\\colorCurve{black}\n\\def\\colorWeights{black}";
     latexCodeDS = "\\def\\colorDSLines{black}\n\\def\\colorDSDots{black}";
 
-    plotTropPolynomial(polyStr,aX,bX,aY,bY,useMin,autoAdjust,autoBoundaryDist,autoSquare);
+    plotTropPolynomial(polyStr,aX,bX,aY,bY,useMin,autoAdjust,autoBoundaryDist,autoSquare,showGrid,showGridLabels);
 }
 
 /*

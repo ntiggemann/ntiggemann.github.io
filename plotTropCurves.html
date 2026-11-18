@@ -16,7 +16,7 @@
     <nav>
         <a href="index.html" title="Home">Home</a>
         <a href="research.html" title="Research projects">Research</a>
-        <a href="plotTropCurves.html" title="Plot tropical curves" class="active">Plotting</a>
+        <a href="tools.html" title="Tools" class="active">Tools</a>
         <a href="coding.html" title="Coding projects">Coding</a>
         <a href="teaching.html" title="Teaching">Teaching</a>
     </nav>
@@ -58,7 +58,7 @@
                             </label>
                             <label title="The minimal distance of vertices to the boundary of the plot">
                                 Min distance vertex to boundary:
-                                <input type="number" id="autoBoundaryDist" value="1" style="width:60px;">
+                                <input type="number" id="autoBoundaryDist" value="1" step="any" style="width:60px;">
                             </label>
                         </div>
                     </fieldset>
@@ -68,16 +68,30 @@
                         <div class="checkboxes">
                             <div>
                                 <label title="Enter the range of values for the x coordinate">x-range:
-                                <input type="number" id="aX" value="-5" style="width:60px;">
-                                <input type="number" id="bX" value="5" style="width:60px;">
+                                <input type="number" id="aX" value="-5" step="any" style="width:60px;">
+                                <input type="number" id="bX" value="5" step="any" style="width:60px;">
                                 </label>
                             </div>
                             <div>        
                                 <label title="Enter the range of values for the y coordinate">y-range:
-                                <input type="number" id="aY" value="-5" style="width:60px;">
-                                <input type="number" id="bY" value="5" style="width:60px;">
+                                <input type="number" id="aY" value="-5" step="any" style="width:60px;">
+                                <input type="number" id="bY" value="5" step="any" style="width:60px;">
                                 </label>
                             </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Coordinate lines:</legend>
+                        <div class="checkboxes">
+                            <label title="Draws coordinate lines in the plot of the curve. Their distance is chosen automatically. If the origin is in the plotting range, it always lies on two of them.">
+                                <input type="checkbox" id="showGrid">
+                                Show coordinate lines
+                            </label>
+                            <label title="Labels the coordinate lines with their values (only if coordinate lines are shown)">
+                                <input type="checkbox" id="showGridLabels" checked>
+                                Label coordinate lines
+                            </label>
                         </div>
                     </fieldset>
                 </form>
