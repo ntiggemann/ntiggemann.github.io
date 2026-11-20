@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Teaching: Talks about tropical geometry.">
+    <meta name="robots" content="index, follow">
+    <title>Nathan Tiggemann</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="bgCurve.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="content-page">
+    <header>
+        <h1>Nathan Tiggemann</h1>
+    </header>
+    <nav>
+        <a href="index.html" title="Home">Home</a>
+        <a href="research.html" title="Research projects">Research</a>
+        <a href="tools.html" title="Tools" class="active">Tools</a>
+        <a href="coding.html" title="Coding projects">Coding</a>
+        <a href="teaching.html" title="Teaching">Teaching</a>
+    </nav>
+    <section>
+        <h3 id="help_plane_trop_curve">Plane tropical curves</h3>
+        <h4>What it does</h4>
+        Given a tropical polynomial in two variables \(x\) and \(y\), draws the curve defined by it together with its dual subdivision. Further, TikZ code for both is generated.
+        <h4>The input</h4>
+        <ul>
+            <li>For the polynomials: For a term "\( a\odot x^iy^j\oplus b\odot x^ky^l\)", the input has to be "axiyj+bxkyl". So e.g. the minimal input for 
+                \[0\oplus 2\odot x^{1}y^{1}\oplus 0\odot x^{2}\oplus (-0.1)\odot x^{2}y^{1}\] is "x2+2xy-0.1x2y+0". All other symbols will be ignored.</li>
+            <li>Start generation of the plot by hitting enter or the "plot"-button.</li>
+            <li>At the bottom of the page you can find the tikz-code for the figures: Click the "TikZ for curve"-button, respectively the "TikZ for DS"-button, to get the TikZ-code for the curve, resp. its dual subdivision, displayed.</li>
+            <li>The  settings do the following:
+                <ul>
+                    <li>Use max-convention: Decides whether a sum gets interpreted as taking max or min.</li>
+                    <li>Auto-adjust range: Automatically adjusts the plotting range such that all vertices can be seen in the plot.</li>
+                    <li>Make plot a square: Forces an automatically adjusted range to be a square.</li>
+                    <li>Min distace vertex to boundary: Forces an automatically adjusted range to keep the specified distande to the vertices.</li>
+                    <li>Settings for manual plotting range: Here you can decide which rectangle you want to get a plot of. If not all vertices are in your range, you will get an error and a suggestion for a better range. Will be ignored if the plotting range isautomated.</li>
+                    <li>Show coordinate lines: Draws coordinate lines.</li>
+                    <li>Label coordinate lines: Gives the actual coordinates of the lines</li>
+                </ul>
+                Changing tick-settings will start the plot.
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3 id="help_intersect_plane_trop_curves">Intersection of plane tropical curves</h3>
+        <h4>What it does</h4>
+        Given two tropical polynomials in two variables \(x\) and \(y\), draws their curves in blue and red together with the dual subdivision of the picture, colored accordingly. For every stable intersection point, its multiplicity gets computed. In the case of a non-transversal intersection, the overlapping parts get drawn in purple. Further, TikZ code for all of this is generated.
+        <h4>The input</h4>
+        <ul>
+            <li>For the polynomial: For a term "\( a\odot x^iy^j\oplus b\odot x^ky^l\)", the input has to be "axiyj+bxkyl". So e.g. the minimal input for 
+                \[0\oplus 2\odot x^{1}y^{1}\oplus 0\odot x^{2}\oplus (-0.1)\odot x^{2}y^{1}\] is "x2+2xy-0.1x2y+0". All other symbols will be ignored.</li>
+            <li>Start generation of the plot by hitting enter or the "plot"-button.</li>
+            <li>At the bottom of the page you can find the tikz-code for the figures: Click the "TikZ for curve"-button, respectively the "TikZ for DS"-button, to get the TikZ-code for the curves, resp. the dual subdivision, displayed.</li>
+            <li>The  settings do the following:
+                <ul>
+                    <li>Use max-convention: Decides whether a sum gets interpreted as taking max or min.</li>
+                    <li>Auto-adjust range: Automatically adjusts the plotting range such that all vertices can be seen in the plot.</li>
+                    <li>Make plot a square: Forces an automatically adjusted range to be a square.</li>
+                    <li>Min distace vertex to boundary: Forces an automatically adjusted range to keep the specified distande to the vertices.</li>
+                    <li>Settings for manual plotting range: Here you can decide which rectangle you want to get a plot of. If not all vertices are in your range, you will get an error and a suggestion for a better range. Will be ignored if the plotting range isautomated.</li>
+                    <li>Show coordinate lines: Draws coordinate lines.</li>
+                    <li>Label coordinate lines: Gives the actual coordinates of the lines</li>
+                    <li>Shift curves: Shifts the curves by the vector specified. Note: This is done by editing the input polynomial</li>
+                </ul>
+            </li>
+            Changing settings will start the plot.
+        </ul>
+    </section>
+    <footer>
+        <p>&copy; 2026 Nathan Tiggemann</p>
+    </footer>
+</body>
+</html>
