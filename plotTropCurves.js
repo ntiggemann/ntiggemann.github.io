@@ -9,6 +9,13 @@ plotForm.addEventListener("submit", function(event) {
     plotte();
 });
 
+// Re-plot whenever one of the checkbox options is toggled (only if a polynomial has been entered)
+plotForm.addEventListener("change", function(event) {
+    if (event.target.type === "checkbox" && document.getElementById("poly").value.trim() !== "") {
+        plotte();
+    }
+});
+
 const copyLatexButton = document.getElementById("copyLatexButton");
 copyLatexButton.addEventListener("click", copyLatex);
 
