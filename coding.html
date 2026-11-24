@@ -30,6 +30,7 @@
             <li><a href="#Plotting_tropical_curves">Plotting tropical curves - Python and Windows</a></li>
             <li><a href="#Plotting_with_an_app">An android-app to plot tropical curves</a></li>
             <li><a href="#Plotting_tropical_hypersurfaces">Plotting tropical hypersurfaces in \(\mathbb{R}^3\)</a></li>
+            <li><a href="#Plotting_tropical_intersections">Plotting tropical intersections - in your browser</a></li>
             <li><a href="#Multiply_trop_polys">Multiplying tropical polynomials</a></li>
             <li><a href="#How_to_get_a_website">Get your own website</a></li>
         </ul>
@@ -76,10 +77,13 @@
                 My script, however, does plot the edges of the dual subdivision, too. There is no support for min-convention yet and you have to do the input directly in the file. Running it will immediately show you the plots. 
                 This script uses the packages numpy, matplotlib and scipy.
                 <br>
-                For more details on how to make this script work and how the input works, see <a href="#On_plotting_tropical_hypersurfaces">here</a>.
-                <h3>Disclaimer</h3>
+                For more details on how to make this script work and how the input works, see <a href="#On_plotting_tropical_hypersurfaces">here</a>. I plan to make a browser version of this, too.
+            <h3 id="Plotting_tropical_intersections">Plotting tropical intersections - in your browser</h3>
+                Over <a href="plotTropIntersections.html">here</a> you can plot the intersection of two tropcial curves. See <a href="help.html#help_intersect_plane_trop_curves">here</a> for explanations of the options and how the input works. I had an algorithm sketh for this tool since quite some time. Since I 
+                didn't find the time to implement it myself but kind of needed it to be done, this tool was mostly generated using Claude Code.
+            <h3>Disclaimer</h3>
                 Use all the scripts on this website at your own risk. I am confident that they work very well for reasonable input, however, I do not guarantee that all outputs are correct.
-                If you find any bugs, please <a href="https://www.mathematik.tu-darmstadt.de/fb/personal/details/nathan_tiggemann.de.jsp">contact</a> me after you made sure that you are using the latest version.
+                If you find any bugs, please <a href="https://www.mathematik.tu-darmstadt.de/fb/personal/details/nathan_tiggemann.de.jsp">contact</a> me (after you made sure that you are using the latest version).
         </p>
     </section>
     <section>
@@ -137,6 +141,8 @@
                 For "y+x+x2+y2" the points on the diagonal that intersect with the boundary of the plotting range would get connected and this edge would get a weight 2 assigned.<br>
                 Since version 2.3 of the .exe/.py file, 0.4 of the app and the first browser-version the following statement is used: "Let x,y be two points on a tropical curve with 2 common monomials that are maximal. Then all convex combinations of them are part of the curve". 
                 This follows from the convexity of the graphs of tropical polynomial functions.
+                <h4>AI usage</h4>
+                I implemented the Python-version and the Android-version myself and also did the port to Javascript by hand. However, the options for coordinate lines were done by Claude Code.
             </p>
     </section>
     <section>
@@ -175,8 +181,7 @@
         <p>
             <h3 id="Multiply_trop_polys"> Multiplying tropical polynomials</h3>
             You can download a small python script to multiply two tropical polynomials in variables \(x\) and \(y\) by clicking <a href="multiply_trop_polys_2d_v1.1.py"> here</a>. Input and output work as described above for the plotting of tropical curves.
-            This script is somewhat unpolished but does its job.<br>
-            It is a small first step towards plotting intersections of tropical curves, a project I hope to find the time to do.
+            This script is somewhat unpolished but does its job.
         </p>
         </section>
         <section>
