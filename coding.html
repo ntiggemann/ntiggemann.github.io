@@ -72,10 +72,9 @@
                 I wrote an android app that allows you to plot tropical curves and their dual subdivisions - however, you should probably rather use the browser version over <a href="plotTropCurves.html">here</a>. You can find an APK-file <a href="tropplotcurvesv0.4.apk">here</a>. Run this file on an android device to install the app. Android will be suspicious about the file as it does not come from the app store.<br>
                 The app is very simplistic and unpolished, however, it does its job. It was written and built using BeeWare. The input for the polynomial works as described above. The plotting range is adjusted automatically. There are no error messages implemented, so you should check if the plot looks weird yourself.
             <h3 id="Plotting_tropical_hypersurfaces">Plotting tropical hypersurfaces in three dimensions</h3>
-                You can find a Python script for plotting tropical hypersurfaces in \(\mathbb{R}^3\) <a href="plot_tropical_hypersurfaces_3dim_v1.3.py"> here</a>. An even easier-to-use program written 
+                You can find a Python script for plotting tropical hypersurfaces in \(\mathbb{R}^3\) <a href="plot_tropical_hypersurfaces_3dim_v1.4.py"> here</a>. An even easier-to-use program written 
                 by Lars Allermann can be found <a href="https://www.math.uni-tuebingen.de/de/forschung/algebra/personen/prof-dr-thomas-markwig/software-fuer-tropische-geometrie"> here</a>.<br>
-                My script, however, does plot the edges of the dual subdivision, too. There is no support for min-convention yet and you have to do the input directly in the file. Running it will immediately show you the plots. 
-                This script uses the packages numpy, matplotlib and scipy.
+                My script, however, does plot the edges of the dual subdivision, too. You have to do the input directly in the file. Running it will immediately show you the plots.
                 <br>
                 For more details on how to make this script work and how the input works, see <a href="#On_plotting_tropical_hypersurfaces">here</a>. I plan to make a browser version of this, too.
             <h3 id="Plotting_tropical_intersections">Plotting tropical intersections - in your browser</h3>
@@ -152,7 +151,7 @@
                 I use Windows, so here is how it worked for me: Download Python from <a href="https://www.python.org/downloads/">the official website</a>. 
                 Install it - and make sure that you pick the "Add Python to PATH" during the installation. <br>
                 Download pip with the command "curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py" in the command prompt (You find that by pressing the Windows key and then typing cmd. The "" are not part of the command). 
-                Install pip with the command "python get-pip.py". Use the commands "pip install numpy", "pip install matplotlib", "pip install scipy" to install the three packages. "math", "re" and "tkinter" are pre-installed.<br>
+                Install pip with the command "python get-pip.py". Use the commands "pip install [package]" to install the needed packages. "math", "re" and "tkinter" are pre-installed.<br>
                 If you use Linux or macOS: Ask some AI how to install everything. You might need to install "tkinter" explicitly, too.
                 <h4>The Input</h4>
                 For this script, you have to manually adjust the input in the code. If you open the file, after line 15 (''' INPUT ''') there are more explanations on how to do this.
@@ -176,7 +175,7 @@
                 Since version 1.3 the following statement is used: "Let x,y be two points on a tropical hypersurface with 3 common monomials that are maximal. Then for all convex combinations of these two points the max is attained by these three monomials". 
                 This follows from the convexity of the graphs of tropical polynomial functions.
                 <h4>AI usage</h4>
-                I implemented this script myself.
+                I implemented this script myself up to version 1.3, which still had some issues. Later versions were corrected and extended using Claude Code.
         </p>
         </section>
         <section>
