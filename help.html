@@ -70,6 +70,35 @@
             Changing settings will start the plot.
         </ul>
     </section>
+    <section>
+        <h3 id="help_trop_surfaces">Tropical surfaces</h3>
+        <h4>What it does</h4>
+        Given a tropical polynomial in three variables \(x\), \(y\) and \(z\), draws the surface in \(\mathbb{R}^3\) defined by it together with its dual subdivision. Both plots can be rotated by dragging them with the mouse or a finger. Further, TikZ code for both is generated.
+        <h4>The input</h4>
+        <ul>
+            <li>For the polynomial: For a term "\( a\odot x^iy^jz^k\oplus b\odot x^ly^mz^n\)", the input has to be "axiyjzk+bxlymzn". So e.g. the minimal input for
+                \[0\oplus 2\odot x^{1}z^{1}\oplus 0\odot x^{2}\oplus (-0.1)\odot y^{2}z^{1}\] is "x2+2xz-0.1y2z+0". Spaces, "*", "^" and brackets are ignored. Other symbols give an error message that shows where the input could not be read.</li>
+            <li>Start generation of the plot by hitting enter or the "plot"-button.</li>
+            <li>Drag one of the plots to rotate both of them.</li>
+            <li>At the bottom of the page you can find the tikz-code for the figures: Click the "TikZ for surface"-button, respectively the "TikZ for DS"-button, to get the TikZ-code for the surface, resp. its dual subdivision, displayed. The code needs the package tikz-3dplot and shows the plots from the current view.</li>
+            <li>The settings do the following:
+                <ul>
+                    <li>Use max-convention: Decides whether a sum gets interpreted as taking max or min.</li>
+                    <li>Auto-adjust range: Automatically adjusts the plotting range such that all vertices can be seen in the plot. If the surface has no vertices (because the Newton polytope is not three-dimensional), the lines or planes of minimal dimension are used instead.</li>
+                    <li>Make plot a cube: Forces an automatically adjusted range to be a cube.</li>
+                    <li>Min distance vertex to boundary: Forces an automatically adjusted range to keep the specified distance to the vertices.</li>
+                    <li>Settings for manual plotting range: Here you can decide which box you want to get a plot of. Vertices outside of the box are allowed, the part of the surface inside the box is drawn. Below the plots you can see how many vertices lie outside. Will be ignored if the plotting range is automated.</li>
+                    <li>View: The angles under which the plots are seen, as in <code>\tdplotsetmaincoords</code> of tikz-3dplot. They change when you drag a plot. "Reset view" goes back to the initial view.</li>
+                    <li>Show box: Draws the back sides of the plotting range and the names of the axes.</li>
+                    <li>Show coordinate lines: Draws coordinate lines on the back sides of the plotting range.</li>
+                    <li>Label coordinate lines: Gives the actual coordinates of the lines.</li>
+                </ul>
+                Changing tick-settings will start the plot.
+            </li>
+        </ul>
+        <h4>The output</h4>
+        The surface is drawn in transparent blue, its edges in black. A number on a polygon is its weight, if it is bigger than 1. If the surface only touches the boundary of the plotting range in a segment or a point, this is drawn, too: black if it lies on an edge or is a vertex of the surface, blue otherwise. In the dual subdivision, the monomials of the polynomial are black, the other lattice points grey.
+    </section>
     <footer>
         <p>&copy; 2026 Nathan Tiggemann</p>
     </footer>

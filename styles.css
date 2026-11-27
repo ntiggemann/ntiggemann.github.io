@@ -262,3 +262,20 @@ canvas { margin-top: 20px; }
 .tile p {
     margin: 0;
 }
+
+/* Surface plotter (3D): the plots can be rotated by dragging */
+.plots svg.view3d {
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+}
+
+.plots svg.view3d:active {
+    cursor: grabbing;
+}
+
+#info {
+    color: #555;
+    font-size: 0.9em;
+    margin: 0.5rem 0;
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Coding projects: Plotting tropical surfaces.">
+    <meta name="robots" content="index, follow">
+    <title>Nathan Tiggemann</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Nathan Tiggemann</h1>
+    </header>
+    <nav>
+        <a href="index.html" title="Home">Home</a>
+        <a href="research.html" title="Research projects">Research</a>
+        <a href="tools.html" title="Tools" class="active">Tools</a>
+        <a href="coding.html" title="Coding projects">Coding</a>
+        <a href="teaching.html" title="Teaching">Teaching</a>
+    </nav>
+    <section>
+        <h2>Tropical Surface Plotter</h2>
+        <p>Plots the tropical surface in three-dimensional space defined by a tropical polynomial in x, y and z, together with the dual subdivision. Drag a plot to rotate it. For curves in the plane, use the <a href="plotTropCurves.html">Tropical Polynom Plotter</a>.</p>
+        <form id="plotForm">
+            <!--Polynom Input-->
+            <div class="poly-input">
+                <input id="poly" type="text" placeholder="e.g. -2x2-2y2-2z2+x+1y+z+xy+1xz+yz+0">
+                <button type="submit">Plot</button>
+            </div>
+
+            <div id="error"></div>
+
+            <!-- More Options:-->
+            <details>
+                <summary>Settings</summary>
+                <fieldset>
+                    <div class="checkboxes">
+                        <label title="If checked, the tropical numbers are considered with addition taking the maximum. If not, addition is minimum.">
+                            <input type="checkbox" id="useMax" checked>
+                            Use max-convention
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Automate plotting range:</legend>
+                    <div class="checkboxes">
+                        <label title="Automatically adjusts the plotting range such that no vertices are missed. If the surface has no vertices, the lines or planes of minimal dimension are used instead.">
+                            <input type="checkbox" id="autoAdjust" checked>
+                            Auto-adjust range
+                        </label>
+                        <label title="Additionally forces the plotting range to be a cube">
+                            <input type="checkbox" id="autoCube" checked>
+                            Make plot a cube
+                        </label>
+                        <label title="The minimal distance of vertices to the boundary of the plot">
+                            Min distance vertex to boundary:
+                            <input type="number" id="autoBoundaryDist" value="1" min="0" step="any" style="width:60px;">
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Settings for manual plotting range:</legend>
+                    <div class="checkboxes">
+                        <div>
+                            <label title="Enter the range of values for the x coordinate">x-range:
+                            <input type="number" id="aX" value="-5" step="any" style="width:60px;">
+                            <input type="number" id="bX" value="5" step="any" style="width:60px;">
+                            </label>
+                        </div>
+                        <div>
+                            <label title="Enter the range of values for the y coordinate">y-range:
+                            <input type="number" id="aY" value="-5" step="any" style="width:60px;">
+                            <input type="number" id="bY" value="5" step="any" style="width:60px;">
+                            </label>
+                        </div>
+                        <div>
+                            <label title="Enter the range of values for the z coordinate">z-range:
+                            <input type="number" id="aZ" value="-5" step="any" style="width:60px;">
+                            <input type="number" id="bZ" value="5" step="any" style="width:60px;">
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>View:</legend>
+                    <div class="checkboxes">
+                        <label title="Polar angle of the viewer in degrees: 0 looks from above, 90 from the side. Same as the first argument of \tdplotsetmaincoords in tikz-3dplot. Changes when you drag a plot up or down.">
+                            Polar angle:
+                            <input type="number" id="viewTheta" value="60" min="0" max="180" step="any" style="width:60px;">
+                        </label>
+                        <label title="Rotation around the z-axis in degrees. Same as the second argument of \tdplotsetmaincoords in tikz-3dplot. Changes when you drag a plot to the left or right.">
+                            Azimuth:
+                            <input type="number" id="viewPhi" value="30" step="any" style="width:60px;">
+                        </label>
+                        <button type="button" id="resetViewButton">Reset view</button>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Box and coordinate lines:</legend>
+                    <div class="checkboxes">
+                        <label title="Draws the back sides of the plotting range and the names of the axes">
+                            <input type="checkbox" id="showBox" checked>
+                            Show box
+                        </label>
+                        <label title="Draws coordinate lines on the back sides of the plotting range. Their distance is chosen automatically. If 0 is in a range, it always lies on a coordinate line.">
+                            <input type="checkbox" id="showGrid">
+                            Show coordinate lines
+                        </label>
+                        <label title="Labels the coordinate lines with their values (only if coordinate lines are shown)">
+                            <input type="checkbox" id="showGridLabels" checked>
+                            Label coordinate lines
+                        </label>
+                    </div>
+                </fieldset>
+                <a href="help.html#help_trop_surfaces">Help</a>
+            </details>
+        </form>
+        <br>
+        <div class="plots">
+            <svg id="plot" class="view3d"
+                viewBox="-10 -10 20 20"
+                preserveAspectRatio="xMidYMid meet">
+            </svg>
+            <svg id="plotDS" class="view3d"
+                viewBox="-10 -10 20 20"
+                preserveAspectRatio="xMidYMid meet">
+            </svg>
+        </div>
+        <div id="info"></div>
+        <button id="latexButton">TikZ for surface</button>
+        <button id="latexButtonDS">TikZ for DS</button>
+        <div id="latexPopup" class="popup">
+            <div class="popup-content">
+                <button class="close-button" id="closeLatexButton">×</button>
+
+                <h3>TikZ-code for the surface</h3>
+
+                <textarea id="latexOutput" readonly></textarea>
+
+                <button id="copyLatexButton">Copy</button>
+            </div>
+        </div>
+        <div id="latexPopupDS" class="popup">
+            <div class="popup-content">
+                <button class="close-button" id="closeLatexButtonDS">×</button>
+
+                <h3>TikZ-code for the dual subdivision</h3>
+
+                <textarea id="latexOutputDS" readonly></textarea>
+
+                <button id="copyLatexButtonDS">Copy</button>
+            </div>
+        </div>
+        <script src="tropSurfaceComputation.js"></script>
+        <script src="plotTropSurfaces.js"></script>
+    </section>
+    <footer>
+        <p>&copy; 2026 Nathan Tiggemann</p>
+    </footer>
+</body>
+</html>
